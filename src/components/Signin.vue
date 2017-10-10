@@ -1,8 +1,10 @@
 <template>
   <div>
-		<input v-model="email" type="email" placeholder="Email Address" />
-		<input v-model="password" type="password" placeholder="Email Address" />
-		<button @click="signin">Sign in</button>
+		<form>
+			<input v-model="email" type="email" placeholder="Email Address" />
+			<input v-model="password" type="password" placeholder="Email Address" />
+			<button type="submit" @click="signin">Sign in</button>
+		</form>
   </div>
 </template>
 
@@ -18,8 +20,10 @@
 		},
 
 		methods: {
-			signin () {
-				this.$store.dispatch('users/signin', { email: this.email, password: this.password })
+			signin (e) {
+				if (this.email.length > 6 && this.password.length > 6) {
+					this.$store.dispatch('users/signin', { email: this.email, password: this.password })
+				}
 			}
 		}
   }

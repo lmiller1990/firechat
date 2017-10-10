@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import 'babel-polyfill'
 import firebase from 'firebase'
 import 'firebase/firestore'
-import config from '../config'
+import config from '../../firebase.config'
 
 import users from './users'
 import conversations from './conversations'
