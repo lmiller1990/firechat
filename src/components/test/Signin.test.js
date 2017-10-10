@@ -7,32 +7,32 @@ import Signin from '../Signin'
 Vue.use(Vuex)
 
 describe('Signin', () => {
-	let actions
-	let store
+  let actions
+  let store
 
-	beforeEach(() => {
-		actions = {
-			signin: jest.fn()
-		}
+  beforeEach(() => {
+    actions = {
+      signin: jest.fn()
+    }
 
-		store = new Vuex.Store({ state: {}, modules: { 
-			users: { namespaced: true, actions } } 
-		})
-	})
+    store = new Vuex.Store({ state: {}, modules: { 
+      users: { namespaced: true, actions } } 
+    })
+  })
 
-	it('signin is dispatched when email and password are validated', () => {
-		const wrapper = mount(Signin, { store })
-		wrapper.find('button').trigger('click')
-		expect(actions.signin.mock.calls.length).toBe(0)
-	})
+  it('signin is dispatched when email and password are validated', () => {
+    const wrapper = mount(Signin, { store })
+    wrapper.find('button').trigger('click')
+    expect(actions.signin.mock.calls.length).toBe(0)
+  })
 
-	it('dispatches a signin actions when email and password are validated', () => {
-		const wrapper = mount(Signin, { store })
+  it('dispatches a signin actions when email and password are validated', () => {
+    const wrapper = mount(Signin, { store })
 
-		wrapper.setData({ email: 'email@email', password: 'passoword' })
+    wrapper.setData({ email: 'email@email', password: 'passoword' })
 
-		wrapper.find('button').trigger('click')
+    wrapper.find('button').trigger('click')
 
-		expect(actions.signin.mock.calls.length).toBe(1)
-	})
+    expect(actions.signin.mock.calls.length).toBe(1)
+  })
 })
