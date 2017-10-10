@@ -1,18 +1,25 @@
-import * as types from './mutation-types'
+import * as types from '../mutation-types'
 import * as firebase from 'firebase'
 
 const state = {
   all: {},
+  allIds: [],
   currentUser: {
     uid: null,
     email: null
   }
 }
 
-const mutations = {
+export const mutations = {
   SET_USER (state, { uid, email }) {
     state.currentUser.uid = uid
     state.currentUser.email = email
+  },
+  
+  UPDATE_MOST_RECENT_USERS (state, { user }) {
+    console.log(user)
+    state.all = {...state.all, [user.uid]: user}
+    state.allIds.push(user.uid)
   }
 }
 
@@ -40,12 +47,23 @@ const actions = {
     let userRef = rootState.db.collection('users')
     let users = await userRef.get()
 
-    users.forEach(user => commit('SET_USER', { user }))
+    users.forEach(user => commit(types.SET_USER, { user }))
   },
 
-  async createUser ({ commit }, { username, password }) {
+  async getMostRecent ({ commit, rootState }) {
+    const userRef = rootState.db.collection('users')
+    
+    const mostRecent = await userRef.orderBy('joined', 'desc').limit(3).get()
+
+    mostRecent.forEach(user => commit(types.UPDATE_MOST_RECENT_USERS, { user: user.data() }))
+  },
+
+  async createUser ({ commit, rootState }, { username, password }) {
     try {
       const user = await firebase.auth().createUserWithEmailAndPassword(username, password)
+      const userRef = rootState.db.collection('users')
+      
+      userRef.doc(user.uid).set({ email: username, joined: Date.now() })
     } catch (e) {
       console.log('Error', e)
     }
