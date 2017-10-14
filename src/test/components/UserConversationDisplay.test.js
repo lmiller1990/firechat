@@ -1,5 +1,5 @@
 import { mount, shallow } from 'vue-test-utils'
-import UserConversationDisplay from './UserConversationDisplay'
+import UserConversationDisplay from '@/components/UserConversationDisplay'
 import moment from 'moment'
 
 describe('UserConversationDisplay', () => {

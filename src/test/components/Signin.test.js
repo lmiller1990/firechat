@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { mount } from 'vue-test-utils'
 
-import Signin from '../Signin'
+import Signin from '@/components/Signin'
 
 Vue.use(Vuex)
 

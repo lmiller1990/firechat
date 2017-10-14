@@ -1,5 +1,5 @@
 import { mount } from 'vue-test-utils'
-import FriendsContainer from '../FriendsContainer'
+import FriendsContainer from '@/components/FriendsContainer'
 
 describe('FriendsContainer', () => {
   it('renders a list of friends', () => {

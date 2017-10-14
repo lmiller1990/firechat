@@ -1,7 +1,7 @@
 import {
   mutations,
   getters
-} from './'
+} from '@/store/users'
 
 describe('users module getters', () => {
   it ('returns all user ids except the current user', () => {
