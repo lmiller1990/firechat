@@ -23,10 +23,6 @@ export const mutations = {
 }
 
 const actions = {
-  seed ({ rootState }) {
-    // let userRef = rootState.db.collection('users')
-  },
-
   async get ({ commit, rootState }) {
     let userRef = rootState.db.collection('users')
     let users = await userRef.get()
@@ -87,10 +83,17 @@ const actions = {
   } 
 }
 
+export const getters = {
+  allUserIdsExceptCurrent: state => {
+    return state.allIds.filter(x => x !== state.currentUser.uid)
+  }
+}
+
 export default {
   namespaced: true, 
   state, 
   mutations, 
-  actions
+  actions,
+  getters
 }
 

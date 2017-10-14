@@ -45,12 +45,20 @@ const actions = {
 	},
 	
   async createOrFetchConversation ({ state, rootState, commit }, { user }) {
+    // get current user
     const currentUser = rootState.users.currentUser
+
+    // get references to documents in Firestore
     let convoRef = rootState.db.collection('conversations')
     let userRef = rootState.db.collection('users')
 
+    // ref to current user all convos
     const currentUserConvos = await userRef.doc(currentUser.uid).get()
+
+    // ref to the friend convos - we will need to creat and add a ref. to both if it doesn't exist.
     const friendsConvos = await userRef.doc(user.id).get()
+
+    // actual convos for current user
     const conversations = currentUserConvos.data().conversations
 
     let found = false

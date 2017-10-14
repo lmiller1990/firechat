@@ -1,8 +1,22 @@
 import {
-  mutations
+  mutations,
+  getters
 } from './'
 
-describe('users module', () => {
+describe('users module getters', () => {
+  it ('returns all user ids except the current user', () => {
+    let state = {
+      allIds: [1, 2, 3],
+      currentUser: { uid: 3 }
+    }
+
+    const actual = getters.allUserIdsExceptCurrent(state)
+
+    expect(actual).toEqual([1, 2])
+  })
+})
+
+describe('users module mutations', () => {
   it('SET_USER assigns a user email and uid', () => {
     let state = {
       currentUser: { email: null, uid: null }
