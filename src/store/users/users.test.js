@@ -14,11 +14,22 @@ describe('users module', () => {
     expect(state.currentUser.uid).toEqual('xyz')
   })
 
-  it('UPDATE_MOST_RECENT_USERS updates the `all` and `allIds` array', () => {
+  it('APPEND_USER adds a user to the `all` and `allIds` array', () => {
     let state = {
-      all: {}, allIds: []
+      all: {
+        '0': {
+          email: 'what@what',
+          displayname: 'ok'
+        }
+      }, allIds: [0]
     }
+    
+    const user = { id: 1, displayname: 'newuser' }
+    mutations.APPEND_USER(state, { user })
 
-    // mutations.UPDATE_MOST_RECENT_USERS(state, {  })
+    expect(state.all).toHaveProperty('1')
+    expect(state.all['1'].displayname).toEqual('newuser')
+    expect(state.allIds.length).toBe(2)
+    expect(state.allIds[1]).toBe(1)
   })
 })

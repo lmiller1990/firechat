@@ -15,11 +15,10 @@ export const mutations = {
     state.currentUser.uid = uid
     state.currentUser.email = email
   },
-  
-  UPDATE_MOST_RECENT_USERS (state, { user }) {
-    console.log(user)
-    state.all = {...state.all, [user.uid]: user}
-    state.allIds.push(user.uid)
+
+  [types.APPEND_USER] (state, { user }) {
+    state.all = {...state.all, [user.id]: {...user, id: user.id} }
+    state.allIds.push(user.id)
   }
 }
 
@@ -50,20 +49,32 @@ const actions = {
     users.forEach(user => commit(types.SET_USER, { user }))
   },
 
-  async getMostRecent ({ commit, rootState }) {
+  async getMostRecent ({ state, commit, rootState }) {
     const userRef = rootState.db.collection('users')
-    
-    const mostRecent = await userRef.orderBy('joined', 'desc').limit(3).get()
 
-    mostRecent.forEach(user => commit(types.UPDATE_MOST_RECENT_USERS, { user: user.data() }))
+    const mostRecent = await userRef
+      .orderBy('joined', 'desc')
+      .limit(10)
+      .get()
+
+    mostRecent.forEach(u => {
+      let userData = u.data()
+      if (userData.email !== state.currentUser.email) {
+        commit(types.APPEND_USER, { 
+          user: {
+            id: u.id,
+            ...userData
+          }})
+      }
+    })
   },
 
-  async createUser ({ commit, rootState }, { username, password }) {
+  async createUser ({ commit, rootState }, { email, displayname, password }) {
     try {
-      const user = await firebase.auth().createUserWithEmailAndPassword(username, password)
+      const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
       const userRef = rootState.db.collection('users')
-      
-      userRef.doc(user.uid).set({ email: username, joined: Date.now() })
+
+      userRef.doc(user.uid).set({ email, displayname, joined: Date.now() })
     } catch (e) {
       console.log('Error', e)
     }

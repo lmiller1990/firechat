@@ -34,6 +34,16 @@ const actions = {
 		.catch(err => console.log('Error', err))
 	},
 	
+  createOrFetchConversation ({ state, rootState, commit }, { user }) {
+    let convoRef = rootState.db.collection('conversations')
+
+    convoRef.add({
+      created: Date.now(),
+      users: [user.id, rootState.users.currentUser.uid],
+      messages: []
+    })
+  },
+
 	async get ({ commit, rootState }) {
 		let convoRef = rootState.db.collection('conversations')
 		let convos = await convoRef.get()

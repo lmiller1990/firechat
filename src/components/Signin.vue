@@ -10,6 +10,7 @@
       <button type="input" @click.prevent="signin">Sign in</button>
       <button type="input" @click.prevent="mock">Mock in</button>
     </form>
+    Current user: {{ $store.state.users.currentUser }}
   </div>
 </template>
 
@@ -26,7 +27,7 @@
 
     methods: {
       mock () {
-        this.$store.dispatch('users/signin', { email: 'test@user.com', password: 'testpassword' })
+        this.$store.dispatch('users/signin', { email: 'abc@def.com', password: 'password' })
       },
       signin () {
         if (this.email.length > 6 && this.password.length > 6) {
