@@ -4,15 +4,21 @@ import uuidv4 from 'uuid/v4'
 const state = {
 	all: {},
 	allIds: [],
-	allMsgIds: []
+	allMsgIds: [],
+  currentId: null
 }
 
 const mutations = {
+  SET_CURRENT_ID (state, { id }) {
+    state.currentId = id
+  },
+
 	SET_CONVERSATION (state, { conversation }) {
 		const data = conversation.data()
 		state.all = {...state.all, [conversation.id]: { users: data.users, created: data.created, messages: [] }} 
 
-		state.allIds.push(conversation.id)
+    if (state.allIds.includes(conversation.id) === false)
+      state.allIds.push(conversation.id)
 	},
 
 	ADD_MESSAGE (state, { conversationId, message }) {
@@ -24,6 +30,10 @@ const mutations = {
 }
 
 const actions = {	
+  async getMostRecent ({ state, rootState, commit }) {
+
+  },
+
 	sendMessage ({ commit, rootState }, { text, created, sender, conversationId }) {
 		const convoRef = rootState.db.collection('conversations').doc(conversationId)
 
@@ -34,14 +44,51 @@ const actions = {
 		.catch(err => console.log('Error', err))
 	},
 	
-  createOrFetchConversation ({ state, rootState, commit }, { user }) {
+  async createOrFetchConversation ({ state, rootState, commit }, { user }) {
+    const currentUser = rootState.users.currentUser
     let convoRef = rootState.db.collection('conversations')
+    let userRef = rootState.db.collection('users')
 
-    convoRef.add({
-      created: Date.now(),
-      users: [user.id, rootState.users.currentUser.uid],
-      messages: []
-    })
+    const currentUserConvos = await userRef.doc(currentUser.uid).get()
+    const friendsConvos = await userRef.doc(user.id).get()
+    const conversations = currentUserConvos.data().conversations
+
+    let found = false
+
+    for (let c in conversations) {
+      const x = conversations[c]
+
+      const conversation = await convoRef.doc(x).get()
+      const data = conversation.data()
+      commit('SET_CONVERSATION', { conversation })
+
+      if (conversation.data().users.includes(user.id)) {
+        found = true
+        commit('SET_CURRENT_ID', { id: conversation.id })
+      }
+    }
+
+    if (found === false) {
+      const newConvo = await convoRef.add({
+        created: Date.now(),
+        messages: [],
+        users: [user.id, currentUser.uid]
+      })
+
+      userRef.doc(currentUser.uid).update({ 
+        lastSeen: Date.now(), 
+        conversations: [...conversations, newConvo.id]
+      })
+
+      const friendsData = friendsConvos.data()
+
+      userRef.doc(user.id).update({ 
+        lastSeen: Date.now(), 
+        conversations: [...friendsData.conversations, newConvo.id]
+      })
+
+      commit('SET_CURRENT_ID', { id: newConvo.id })
+    }
   },
 
 	async get ({ commit, rootState }) {
@@ -52,22 +99,7 @@ const actions = {
 	},
 	
 	seed ({ rootState }) {
-		let convoRef = rootState.db.collection('conversations')
-
-		convoRef.add({
-			created: Date.now(),
-			users: ['mr_a', 'mr_b'],
-			messages: [
-				{ id: uuidv4(), text: 'Hi there', sender: 'mr_a', created: Date.now() },
-				{ id: uuidv4(), text: 'Hi to you too!', sender: 'mr_b', created: Date.now() }
-			]
-		})
-
-		convoRef.add({
-			created: Date.now(),
-			users: ['mr_a', 'mr_c'],
-			messages: []
-		})
+		// let convoRef = rootState.db.collection('conversations')
 	}
 }
 

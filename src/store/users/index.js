@@ -24,22 +24,7 @@ export const mutations = {
 
 const actions = {
   seed ({ rootState }) {
-    let userRef = rootState.db.collection('users')
-
-    userRef.doc('mr_a').set({
-      firstName: 'Andy',
-      lastName: 'Andyson'
-    })
-
-    userRef.doc('mr_b').set({
-      firstName: 'Ben',
-      lastName: 'Benson'
-    })
-
-    userRef.doc('mr_c').set({
-      firstName: 'Cee',
-      lastName: 'Ceeson'
-    })
+    // let userRef = rootState.db.collection('users')
   },
 
   async get ({ commit, rootState }) {
@@ -74,7 +59,13 @@ const actions = {
       const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
       const userRef = rootState.db.collection('users')
 
-      userRef.doc(user.uid).set({ email, displayname, joined: Date.now() })
+      userRef.doc(user.uid).set({ 
+        email, 
+        displayname, 
+        lastSeen: Date.now(),
+        conversations: [],
+        joined: Date.now() 
+      })
     } catch (e) {
       console.log('Error', e)
     }

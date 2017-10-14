@@ -27,7 +27,7 @@
 
     methods: {
       mock () {
-        this.$store.dispatch('users/signin', { email: 'abc@def.com', password: 'password' })
+        this.$store.dispatch('users/signin', { email: 'abc@de.com', password: 'password' })
       },
       signin () {
         if (this.email.length > 6 && this.password.length > 6) {
