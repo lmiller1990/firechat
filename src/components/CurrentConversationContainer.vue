@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div v-if="currentConversation">
-
+      Current: {{ currentConversation }}
     </div>
   </div>
 </template>
