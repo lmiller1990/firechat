@@ -1,0 +1,24 @@
+<template>
+  <div class="container">
+    <div v-if="currentConversation">
+
+    </div>
+  </div>
+</template>
+
+<script>
+  import { mapGetters } from 'vuex'
+
+  export default {
+    name: 'CurrentConversationContainer',
+
+    computed: {
+      ...mapGetters({
+        currentConversation: 'conversations/currentConversation'
+      })
+    }
+  }
+</script>
+
+<style scoped>
+</style>

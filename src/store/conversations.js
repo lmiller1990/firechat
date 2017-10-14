@@ -111,4 +111,10 @@ const actions = {
 	}
 }
 
-export default { namespaced: true, state, mutations, actions }
+export const getters = {
+  currentConversation: state => {
+    return state.all[state.currentId]
+  }
+}
+
+export default { namespaced: true, state, mutations, actions, getters }
