@@ -14,7 +14,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex'
-  import Message from './Message.vue'
+  import Message from './Message'
 
   export default {
     name: 'CurrentConversationContainer',

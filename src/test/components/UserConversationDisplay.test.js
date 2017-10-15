@@ -17,6 +17,8 @@ describe('UserConversationDisplay', () => {
         user: mockUser
       }
     })
+    
+    expect(wrapper.html().includes(mockUser.displayname)).toBe(true)
   })
 
   it('dispatches a createOrFetchConversation actions when clicked', () => {
