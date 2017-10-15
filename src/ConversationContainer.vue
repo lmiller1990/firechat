@@ -1,6 +1,6 @@
 <template>
   <div>
-		Conversation ID: {{ id }}
+    Conversation {{ conversation }}
 		<hr>
 		<Message 
 			v-for="message in conversation.messages" 

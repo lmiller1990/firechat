@@ -4,7 +4,6 @@ import uuidv4 from 'uuid/v4'
 const state = {
 	all: {},
 	allIds: [],
-	allMsgIds: [],
   currentId: null
 }
 
@@ -15,18 +14,11 @@ const mutations = {
 
 	SET_CONVERSATION (state, { conversation }) {
 		const data = conversation.data()
-		state.all = {...state.all, [conversation.id]: { users: data.users, created: data.created, messages: [] }} 
+		state.all = {...state.all, [conversation.id]: { users: data.users, created: data.created }} 
 
     if (state.allIds.includes(conversation.id) === false)
       state.allIds.push(conversation.id)
 	},
-
-	ADD_MESSAGE (state, { conversationId, message }) {
-		if (!state.allMsgIds.includes(message.id)) {
-			state.all[conversationId].messages.push(message)
-			state.allMsgIds.push(message.id)
-		}
-	}
 }
 
 const actions = {	
@@ -64,15 +56,21 @@ const actions = {
     let found = false
 
     for (let c in conversations) {
-      const x = conversations[c]
+      const conversationId = conversations[c]
 
-      const conversation = await convoRef.doc(x).get()
+      const conversation = await convoRef.doc(conversationId).get()
       const data = conversation.data()
       commit('SET_CONVERSATION', { conversation })
+      
+      console.log(data)
+      for (let m in data.messages) {
+        console.log('Adding messages', data.messages[m])
+        commit('messages/ADD_MESSAGE', { conversationId, message: data.messages[m] }, { root: true })
+      }
 
       if (conversation.data().users.includes(user.id)) {
         found = true
-        commit('SET_CURRENT_ID', { id: conversation.id })
+        commit('SET_CURRENT_ID', { id: conversationId })
       }
     }
 
