@@ -41,8 +41,8 @@ describe('Message', () => {
       }
     })
 
-    const messageSpan = wrapper.find('span:first-of-type')
+    const messageDiv = wrapper.find('.message')
 
-    expect(messageSpan.hasClass('my-message')).toBe(true)
+    expect(messageDiv.hasClass('my-message')).toBe(true)
   })
 })

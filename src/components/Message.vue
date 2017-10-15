@@ -1,8 +1,10 @@
 <template>
   <div class="container">
-    <span :class="sentBy">
-      {{ message.text }}
-    </span>
+    <div :style="alignBySender">
+      <div :class="sentBy">
+        {{ message.text }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,10 +20,18 @@
     },
 
     computed: {
-      sentBy () {
+      senderIsCurrentUser () {
         return this.message.sender === this.$store.state.users.currentUser.uid 
-        ? 'my-message'
-        : 'friends-message'
+      },
+
+      alignBySender () {
+        return this.senderIsCurrentUser ? { 'text-align': 'right' } : {}
+      },
+
+      sentBy () {
+        return this.senderIsCurrentUser 
+        ? 'message my-message'
+        : 'message friends-message'
       }
     }
   }
@@ -30,5 +40,18 @@
 <style scoped>
 .container {
 
+}
+
+.message {
+  display: inline-block;
+  border-radius: 5px;
+
+}
+.my-message {
+  background-color: orange;
+}
+
+.friends-message {
+  background-color: red;
 }
 </style>

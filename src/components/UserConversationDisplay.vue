@@ -26,6 +26,7 @@
 
 <style scoped>
 .container {
-  border: 1px solid silver;
+  border-bottom: 1px solid grey;
+  padding: 5px;
 }
 </style>

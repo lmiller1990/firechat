@@ -2,8 +2,16 @@
   <div>
 		<Signin />
 		<Signup />
-    <FriendsContainer />
-    <CurrentConversationContainer />
+    <hr>
+    
+    <div v-if="currentUser.uid" class="main-container">
+      <div class="main-section">
+        <FriendsContainer />
+      </div>
+      <div class="main-section">
+        <CurrentConversationContainer />
+      </div>
+    </div>
   </div>  
 </template>
 
@@ -22,9 +30,22 @@ export default {
     Signup,
     FriendsContainer,
     CurrentConversationContainer
-	}
+	},
+
+  computed: {
+    ...mapState({
+      currentUser: state => state.users.currentUser
+    })
+  }
 }
 </script>
 
-<style>
+<style scoped>
+.main-container {
+  display: flex;
+  flex-direction: row;
+}
+.main-section {
+  border: 1px solid grey;
+}
 </style>

@@ -34,19 +34,15 @@ const actions = {
     const userRef = rootState.db.collection('users')
 
     const mostRecent = await userRef
-      .orderBy('joined', 'desc')
-      .limit(10)
+      //.orderBy('joined', 'desc')
+      //.limit(10)
       .get()
 
     mostRecent.forEach(u => {
       let userData = u.data()
-      if (userData.email !== state.currentUser.email) {
-        commit(types.APPEND_USER, { 
-          user: {
-            id: u.id,
-            ...userData
-          }})
-      }
+      commit(types.APPEND_USER, { 
+        user: { id: u.id, ...userData }}
+      )
     })
   },
 
