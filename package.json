@@ -45,9 +45,9 @@
 			".*\\.(vue)$": "<rootDir>/node_modules/jest-vue",
 			"^.+\\.js$": "<rootDir>/node_modules/babel-jest"
 		},
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    },
+		"moduleNameMapper": {
+			"^@/(.*)$": "<rootDir>/src/$1"
+		},
 		"mapCoverage": true
 	}
 }
