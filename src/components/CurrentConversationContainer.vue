@@ -85,7 +85,7 @@
 
 <style scoped>
 .container {
-  /*margin-left: 10px;*/
+  max-width: 450px;
 }
 
 .new-message-form {

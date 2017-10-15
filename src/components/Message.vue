@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div :style="alignBySender">
+    <div :class="alignBySender">
       <div :class="sentBy">
         {{ message.text }}
       </div>
@@ -25,7 +25,7 @@
       },
 
       alignBySender () {
-        return this.senderIsCurrentUser ? { 'text-align': 'right' } : {}
+        return this.senderIsCurrentUser ? 'right-aligned' : 'left-aliged' 
       },
 
       sentBy () {
@@ -42,16 +42,28 @@
 
 }
 
+.right-aligned {
+  text-align: right;
+  padding-left: 100px;
+}
+
+.left-aligned {
+  text-align: left;
+  padding-right: 100px;
+}
+
 .message {
   display: inline-block;
   border-radius: 5px;
 
 }
 .my-message {
-  background-color: orange;
+  background-color: rgba(255, 165, 0, 0.5);
+  opacity: 50%;
+  text-align: left;
 }
 
 .friends-message {
-  background-color: red;
+  background-color: rgba(100, 100, 100, 0.2);
 }
 </style>
