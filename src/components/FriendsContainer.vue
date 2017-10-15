@@ -35,8 +35,4 @@
 </script>
 
 <style scoped>
-.container {
-  min-width: 200px;
-  max-width: 240px;
-}
 </style>

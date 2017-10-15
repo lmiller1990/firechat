@@ -1,22 +1,24 @@
 <template>
   <div>
-    <form>
-      <input v-model="email" type="email" placeholder="Email Address" />
-      <input 
-        v-model="password" 
-        type="password" 
-        placeholder="Email Address"
-        @keydown.enter.prevent="signin" />
-      <button type="input" @click.prevent="signin">Sign in</button>
-      <button type="input" @click.prevent="mock">Mock in</button>
-    </form>
-    Current user: {{ $store.state.users.currentUser }}
+    <input v-model="email" type="email" placeholder="Email Address" />
+    <input 
+      v-model="password" 
+      type="password" 
+      placeholder="Email Address"
+      @keydown.enter.prevent="signin" />
+    <button type="input" @click.prevent="signin">Sign in</button>
+    <button type="input" @click.prevent="mock">Mock in</button>
   </div>
 </template>
 
 <script>
   export default {
     name: 'Signin',
+
+    created () {
+      if (this.$store.state.users.currentUser)
+        this.mock()
+    },
 
     data () {
       return {

@@ -1,18 +1,20 @@
 <template>
-  <div>
-		<Signin />
-		<Signup />
-    <hr>
-    
-    <div v-if="currentUser.uid" class="main-container">
-      <div class="main-section">
+    <div class="main-container">
+
+      <div class="main-section friends">
         <FriendsContainer />
       </div>
-      <div class="main-section">
+
+      <div class="main-section conversation">
         <CurrentConversationContainer />
       </div>
+
+      <div class="main-section utils">
+        <Signin />
+        <Signup />
+      </div>
+
     </div>
-  </div>  
 </template>
 
 <script>
@@ -44,8 +46,23 @@ export default {
 .main-container {
   display: flex;
   flex-direction: row;
+  /*height: 600px;*/
+  height: 90vh;
 }
+
 .main-section {
   border: 1px solid grey;
+  height: 100%;
+  flex: 1;
+}
+
+.friends {
+}
+
+.conversation {
+  align-self: flex-end
+}
+
+.utils {
 }
 </style>

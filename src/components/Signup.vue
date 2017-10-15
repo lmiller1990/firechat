@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <div>
     <input v-model="email" type="email" placeholder="Email Address" />
     <input v-model="displayname" type="text" placeholder="Display name" />
     <input 
@@ -8,7 +8,7 @@
       placeholder="password"
       @keydown.enter.prevent="signin" />
     <button type="input" @click.prevent="signup">Sign up</button>
-  </form>
+  </div>
 </template>
 
 <script>

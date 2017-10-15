@@ -1,16 +1,19 @@
 <template>
   <div class="container">
-    <div v-if="currentConversation">
+    <div class="header" v-if="currentConversation">
+      ASDF
       Conversation with {{ members }}
     </div>
 
-    <Message 
-      v-for="id in messageIdsByConversation" 
-      :message="messages[id]"
-      :key="id"
-    />
+    <div class="messages">
+      <Message 
+        v-for="id in messageIdsByConversation" 
+        :message="messages[id]"
+        :key="id"
+      />
+    </div>
 
-    <div class="new-message-form">
+    <div class="footer">
       <NewMessageForm v-model="newMessage" @send="send"/>
       <div @click="send">O</div>
     </div>
@@ -85,11 +88,25 @@
 
 <style scoped>
 .container {
-  max-width: 450px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 
-.new-message-form {
-  display: flex;
-  flex-direction: row;
+.messages {
+  flex-grow: 1;
+  overflow: auto;
+  min-height: 2em;
+}
+
+.footer {
+  flex-shrink: 0;
+
+}
+
+
+.header {
+  flex-shrink: 0;
 }
 </style>
