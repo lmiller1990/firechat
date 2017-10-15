@@ -39,7 +39,7 @@
 
 <style scoped>
 .container {
-
+  padding-top: 2px;
 }
 
 .right-aligned {

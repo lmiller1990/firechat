@@ -1,8 +1,7 @@
 <template>
   <div class="container">
     <div class="header" v-if="currentConversation">
-      ASDF
-      Conversation with {{ members }}
+      <CurrentConversationHeader :members="members" />
     </div>
 
     <div class="messages">
@@ -14,8 +13,8 @@
     </div>
 
     <div class="footer">
-      <NewMessageForm v-model="newMessage" @send="send"/>
-      <div @click="send">O</div>
+      <NewMessageForm v-model="newMessage" @send="send" class="new-message-form"/>
+      <NewMessageSendButton @send="send" />
     </div>
   </div>
 </template>
@@ -24,13 +23,17 @@
   import { mapGetters, mapState } from 'vuex'
   import Message from './Message.vue'
   import NewMessageForm from './NewMessageForm.vue'
+  import NewMessageSendButton from './NewMessageSendButton.vue'
+  import CurrentConversationHeader from './CurrentConversationHeader.vue'
 
   export default {
     name: 'CurrentConversationContainer',
 
     components: {
       Message,
-      NewMessageForm
+      NewMessageForm,
+      NewMessageSendButton,
+      CurrentConversationHeader
     },
 
     data () {
@@ -98,13 +101,16 @@
   flex-grow: 1;
   overflow: auto;
   min-height: 2em;
+  padding: 2px;
 }
 
 .footer {
   flex-shrink: 0;
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
 }
-
 
 .header {
   flex-shrink: 0;

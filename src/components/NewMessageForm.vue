@@ -32,6 +32,7 @@
 
 <style scoped>
 .stretch {
+  padding: 5px;
   width: 100%;
 }
 </style>
