@@ -4,9 +4,10 @@
       Conversation: {{ currentConversation }}
     </div>
 
-    <div v-for="id in messageIdsByConversation">
-      {{ messages[id] }}
-    </div>
+    <Message 
+      v-for="id in messageIdsByConversation" 
+      :message="messages[id]"
+    />
 
     <button @click="send">Send</button>
   </div>
@@ -14,7 +15,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex'
-  import Message from './Message'
+  import Message from './Message.vue'
 
   export default {
     name: 'CurrentConversationContainer',
