@@ -38,7 +38,7 @@
 }
 
 .main-section {
-  border: 1px solid grey;
+  border-right: 1px solid silver;
   height: 100%;
   flex: 1;
 }

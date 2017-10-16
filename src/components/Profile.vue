@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <p v-if="users[currentUser.uid]">
       Welcome, {{ users[currentUser.uid].displayname }}.
     </p>
@@ -25,4 +25,7 @@
 </script>
 
 <style scoped>
+.container {
+  text-align: center;
+}
 </style>

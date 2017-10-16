@@ -17,11 +17,6 @@
   export default {
     name: 'Signin',
 
-    created () {
-      if (this.$store.state.users.currentUser)
-        this.mock()
-    },
-
     data () {
       return {
         email: '',

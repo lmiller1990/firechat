@@ -1,7 +1,7 @@
 <template>
   <div class="container" @click="enterConversation">
-    {{ user.displayname }}
-    <div>Last Active: {{ $moment(user.lastSeen).format('DD MMM:hh mm ss') }}</div>
+    {{ user.displayname }} - {{ user.email }}
+    <div class="last-seen">active {{ $moment(user.lastSeen).fromNow() }}</div>
   </div>
 </template>
 
@@ -26,7 +26,16 @@
 
 <style scoped>
 .container {
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid silver;
   padding: 5px;
+}
+
+.container:hover {
+  background-color: rgba(255, 155, 0, 0.25);
+}
+
+.last-seen {
+  font-size: 0.8em;
+  text-align: right;
 }
 </style>

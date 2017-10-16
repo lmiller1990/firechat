@@ -19,6 +19,7 @@ html, body {
   margin: 0;
   height: 100vh;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: rgba(255, 155, 0, 0.15);
 }
 
 .large-text { 

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div :class="alignBySender">
-      <div :class="sentBy">
+      <div :class="colorBySender">
         {{ message.text }}
       </div>
     </div>
@@ -25,10 +25,10 @@
       },
 
       alignBySender () {
-        return this.senderIsCurrentUser ? 'right-aligned' : 'left-aliged' 
+        return this.senderIsCurrentUser ? 'right-aligned' : 'left-aligned' 
       },
 
-      sentBy () {
+      colorBySender () {
         return this.senderIsCurrentUser 
         ? 'message my-message'
         : 'message friends-message'
@@ -39,7 +39,7 @@
 
 <style scoped>
 .container {
-  padding-top: 2px;
+  padding-top: 4px;
 }
 
 .right-aligned {
@@ -54,6 +54,7 @@
 
 .message {
   display: inline-block;
+  padding: 2px;
   border-radius: 5px;
 
 }

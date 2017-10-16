@@ -33,7 +33,6 @@
     padding-top: 100px;
     text-align: center;
     height: 100vh;
-    background-color: orange;
   }
 
 .links {
