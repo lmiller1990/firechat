@@ -42,19 +42,18 @@
       }
     },
 
-    methods: {
-      scrollToBottom () {
-        const el = this.$el.querySelector('.messages')
-        el.scrollTop = el.scrollHeight
-      },
+    updated () {
+      const el = this.$el.querySelector('.messages')
+      el.scrollTop = el.scrollHeight
+    },
 
+    methods: {
       send () {
         this.$store.dispatch('messages/send', { 
           conversationId: this.$store.state.conversations.currentId,
           sender: this.$store.state.users.currentUser.uid,
           text: this.newMessage 
         })
-        .then(() => this.scrollToBottom())
       }
     },
 
@@ -63,12 +62,17 @@
         this.$store.state.db.collection('conversations').doc(this.currentConversationId)
           .onSnapshot(snapshot => {
             let source = snapshot.metadata.hasPendingWrites ? 'Local' : 'Server'
+            console.log('source', source)
             // TODO: 'Such and such is typing a message' console.log(`Source ${source}`)
 
-            snapshot.data().messages.forEach(message => this.$store.commit('messages/ADD_MESSAGE', {
-              conversationId: this.currentConversationId,
-              message
-            }))
+            const messages = snapshot.data().messages
+
+            for (let m in messages) {
+              this.$store.commit('messages/ADD_MESSAGE', {
+                conversationId: this.currentConversationId,
+                message: messages[m]
+              })
+            }
           })
       }
     },
@@ -83,7 +87,7 @@
       ...mapGetters({
         currentConversation: 'conversations/currentConversation',
       }),
-
+      
       messageIdsByConversation () {
         return this.$store.getters['messages/messageIdsByConversation'](this.currentConversationId)
       },
