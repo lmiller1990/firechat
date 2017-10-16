@@ -1,18 +1,18 @@
 <template>
-  <div class="container">
+  <div class="home-container">
     <div class="large-text">Firechat</div>
     <div class="medium-text">A real time chat application</div>
 
     <div class="links">
       <router-link to="/signup">
         <div class="fire-button">
-          Sign up
+          Create Account
         </div>
       </router-link>
 
       <router-link to="/signin">
         <div class="fire-button">
-          Sign in
+          Existing Users
         </div>
       </router-link>
     </div>
@@ -28,13 +28,13 @@
 </script>
 
 <style scoped>
-@import './styles.css';
-.container {
-  text-align: center;
-  justify-content: center;
-  width: 100%;
-  background-color: orange;
-}
+  @import './styles.css';
+  .home-container {
+    padding-top: 100px;
+    text-align: center;
+    height: 100vh;
+    background-color: orange;
+  }
 
 .links {
   margin-top: 16px;
@@ -46,5 +46,4 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
-
 </style>

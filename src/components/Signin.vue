@@ -48,4 +48,9 @@
 
 <style scoped>
   @import './styles.css';
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 </style>

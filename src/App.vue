@@ -1,26 +1,20 @@
 <template>
-  <div class="main-container">
+  <div id="main-app-wrapper"> 
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import Chat from './components/Chat.vue'
-import Home from './components/Home.vue'
-
 export default {
-  name: 'app',
-
-  computed: {
-    ...mapState({
-      currentUser: state => state.users.currentUser
-    })
-  }
+  name: 'app'
 }
 </script>
 
 <style>
+#main-app-wrapper {
+  height: 100%;
+}
+
 html, body {
   margin: 0;
   height: 100vh;

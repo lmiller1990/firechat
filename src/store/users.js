@@ -51,13 +51,18 @@ const actions = {
       const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
       const userRef = rootState.db.collection('users')
 
-      userRef.doc(user.uid).set({ 
+      await userRef.doc(user.uid).set({ 
         email, 
         displayname, 
         lastSeen: Date.now(),
         conversations: [],
         joined: Date.now() 
       })
+
+      const response = await firebase.auth().signInWithEmailAndPassword(email, password)
+
+      console.log('Verified Identity. Welcome', email)
+      return response
     } catch (e) {
       console.log('Error', e)
     }

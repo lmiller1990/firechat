@@ -9,7 +9,9 @@
       placeholder="password"
       class="fire-input"
     />
-    <button type="input" @click.prevent="signup" class="fire-button">Sign up</button>
+    <button type="input" @click.prevent="signup" class="fire-button">
+      Sign up and Log in
+    </button>
   </div>
 </template>
 
@@ -32,6 +34,7 @@
           password: this.password,
           displayname: this.displayname
         })
+        .then(() => this.$router.push({ name: 'chat' }))
       }
     }
   }
@@ -39,4 +42,13 @@
 
 <style scoped>
   @import './styles.css';
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .fire-button {
+    width: 276px;
+  }
 </style>

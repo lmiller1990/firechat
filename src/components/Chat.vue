@@ -21,18 +21,6 @@
   export default {
     name: 'Chat',
     
-    created () {
-      if (this.$store.state.users.currentUser)
-        this.mock()
-    },
-
-    methods: {
-      mock () {
-        console.log('Mock in')
-        this.$store.dispatch('users/signin', { email: 'abc@de.com', password: 'password' })
-      },
-    },
-
     components: {
       FriendsContainer,
       CurrentConversationContainer
