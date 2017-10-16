@@ -38,16 +38,24 @@
 
     data () {
       return {
-        newMessage: ''
+        newMessage: '',
+        needScrollToLastMessage: true
       }
     },
 
     updated () {
-      const el = this.$el.querySelector('.messages')
-      el.scrollTop = el.scrollHeight
+      this.scrollIfNeeded()
     },
 
     methods: {
+      scrollIfNeeded () {
+        if (this.needScrollToLastMessage) {
+          const el = this.$el.querySelector('.messages')
+          el.scrollTop = el.scrollHeight
+          this.needScrollToLastMessage = false
+        }
+      },
+
       send () {
         this.$store.dispatch('messages/send', { 
           conversationId: this.$store.state.conversations.currentId,
@@ -73,6 +81,10 @@
                 message: messages[m]
               })
             }
+
+            // new messages added so we should rescroll
+            this.needScrollToLastMessage = true
+            this.scrollIfNeeded()
           })
       }
     },
