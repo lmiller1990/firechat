@@ -9,7 +9,7 @@
     </div>
 
     <div class="main-section placeholder">
-      {{ '' }}
+      <Profile />
     </div>
   </div>
 </template>
@@ -17,13 +17,15 @@
 <script>
   import CurrentConversationContainer from './CurrentConversationContainer.vue'
   import FriendsContainer from './FriendsContainer.vue'
+  import Profile from './Profile.vue'
 
   export default {
     name: 'Chat',
     
     components: {
       FriendsContainer,
-      CurrentConversationContainer
+      CurrentConversationContainer,
+      Profile
     },
   }
 </script>

@@ -86,7 +86,10 @@ const actions = {
         lastSeen: Date.now(), 
         conversations: [...friendsData.conversations, newConvo.id]
       })
+      
+      const fetchNewConvo = await convoRef.doc(newConvo.id).get()
 
+      commit('SET_CONVERSATION', { conversation: fetchNewConvo })
       commit('SET_CURRENT_ID', { id: newConvo.id })
     }
   },
