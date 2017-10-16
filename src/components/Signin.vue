@@ -31,14 +31,14 @@
 
     methods: {
       mock () {
-        console.log('Mock in')
         this.$store.dispatch('users/signin', { email: 'abc@de.com', password: 'password' })
         .then(() => this.$router.push({ name: 'chat' }))
       },
       signin () {
-        console.log('Signin in')
         if (this.email.length > 6 && this.password.length > 6) {
-          this.$store.dispatch('users/signin', { email: this.email, password: this.password })
+          this.$store.dispatch('users/signin', { 
+            email: this.email, password: this.password 
+          })
           .then(() => this.$router.push({ name: 'chat' }))
         }
       }

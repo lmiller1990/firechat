@@ -1,9 +1,11 @@
 <template>
   <div class="container">
-    <UserConversationDisplay 
-      v-for="id in allUserIdsExceptCurrent" 
-      :key="id" 
-      :user="allUsers[id]" />
+    <div class="wrapper">
+      <UserConversationDisplay 
+        v-for="id in allUserIdsExceptCurrent" 
+        :key="id" 
+        :user="allUsers[id]" />
+    </div>
   </div>
 </template>
 
@@ -35,4 +37,13 @@
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.wrapper {
+  overflow: auto;
+  flex-grow: 1;
+}
 </style>
