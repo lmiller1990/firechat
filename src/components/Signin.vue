@@ -48,4 +48,8 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .fire-button {
+    width: 276px;
+  }
 </style>

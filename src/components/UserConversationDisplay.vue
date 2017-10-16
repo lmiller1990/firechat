@@ -32,6 +32,7 @@
 
 .container:hover {
   background-color: rgba(255, 155, 0, 0.25);
+  cursor: pointer;
 }
 
 .last-seen {

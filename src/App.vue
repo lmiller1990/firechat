@@ -23,7 +23,7 @@ html, body {
 }
 
 .large-text { 
-  font-size: 48px; 
+  font-size: 64px; 
 }
 .medium-text { 
   font-size: 24px; 

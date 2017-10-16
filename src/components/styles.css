@@ -1,12 +1,19 @@
-.container {
-}
-
 .fire-input {
   padding: 8px;
   font-size: 16px;
   margin: 2px;
-  background: lightgrey;
-  width: 256px;
+  background: transparent;
+  width: 320px;
+  color: rgba(255, 0, 0, 0.8);
+  border-color: rgba(255, 0, 0, 0.8);
+}
+
+.fire-input::placeholder {
+  color: rgba(255, 0, 0, 0.25);
+}
+
+.fire-input:focus {
+  outline: solid 3px red;
 }
 
 .fire-button {
@@ -18,9 +25,9 @@
   width: 150px;
   font-size: 16px;
   background-color: transparent;
-  border: 2px solid red;
+  border: 2px solid rgba(255, 0, 0, 0.8);
   border-radius: 4px;
-  color: red;
+  color: rgba(255, 0, 0, 0.8);
 }
 
 .fire-button:hover {
