@@ -43,6 +43,7 @@ describe('Message', () => {
 
     const messageDiv = wrapper.find('.message')
 
+    expect(wrapper.vm.senderIsCurrentUser).toBe(true)
     expect(messageDiv.hasClass('my-message')).toBe(true)
   })
 })

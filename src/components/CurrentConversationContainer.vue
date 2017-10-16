@@ -43,12 +43,18 @@
     },
 
     methods: {
+      scrollToBottom () {
+        const el = this.$el.querySelector('.messages')
+        el.scrollTop = el.scrollHeight
+      },
+
       send () {
         this.$store.dispatch('messages/send', { 
           conversationId: this.$store.state.conversations.currentId,
           sender: this.$store.state.users.currentUser.uid,
           text: this.newMessage 
         })
+        .then(() => this.scrollToBottom())
       }
     },
 

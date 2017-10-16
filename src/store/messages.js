@@ -19,7 +19,7 @@ const actions = {
     let convoRef = rootState.db.collection('conversations').doc(conversationId)
     let conversation = await convoRef.get()
 
-    convoRef.update({
+    return convoRef.update({
       messages: [
         ...conversation.data().messages, 
         {
