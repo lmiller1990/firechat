@@ -1,6 +1,14 @@
 <template>
   <div class="container" @click="enterConversation">
-    {{ user.displayname }} - {{ user.email }}
+
+    <div>
+      {{ user.displayname }}
+      <div class="inline-details">
+        {{ user.email }}
+      </div>
+    </div>
+
+
     <div class="last-seen">active {{ $moment(user.lastSeen).fromNow() }}</div>
   </div>
 </template>
@@ -38,5 +46,10 @@
 .last-seen {
   font-size: 0.8em;
   text-align: right;
+}
+
+.inline-details {
+  text-align: right;
+  font-size: 0.5em;
 }
 </style>
