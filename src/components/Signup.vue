@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <input v-model="email" type="email" placeholder="Email Address" />
-    <input v-model="displayname" type="text" placeholder="Display name" />
+  <div class="container">
+    <input v-model="email" type="email" placeholder="Email Address" class="fire-input" />
+    <input v-model="displayname" type="text" placeholder="Display name" class="fire-input" />
     <input 
       v-model="password" 
+      @keydown.enter.prevent="signin" 
       type="password" 
       placeholder="password"
-      @keydown.enter.prevent="signin" />
-    <button type="input" @click.prevent="signup">Sign up</button>
+      class="fire-input"
+    />
+    <button type="input" @click.prevent="signup" class="fire-button">Sign up</button>
   </div>
 </template>
 
@@ -36,4 +38,5 @@
 </script>
 
 <style scoped>
+  @import './styles.css';
 </style>

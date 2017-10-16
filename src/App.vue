@@ -1,38 +1,16 @@
 <template>
-    <div class="main-container">
-
-      <div class="main-section friends">
-        <FriendsContainer />
-      </div>
-
-      <div class="main-section conversation">
-        <CurrentConversationContainer />
-      </div>
-
-      <div class="main-section utils">
-        <Signin />
-        <Signup />
-      </div>
-
-    </div>
+  <div class="main-container">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import Signin from './components/Signin.vue'
-import CurrentConversationContainer from './components/CurrentConversationContainer.vue'
-import FriendsContainer from './components/FriendsContainer.vue'
-import Signup from './components/Signup.vue'
+import Chat from './components/Chat.vue'
+import Home from './components/Home.vue'
 
 export default {
   name: 'app',
-  
-	components: {
-		Signin,
-    Signup,
-    FriendsContainer,
-    CurrentConversationContainer
-	},
 
   computed: {
     ...mapState({
@@ -42,27 +20,17 @@ export default {
 }
 </script>
 
-<style scoped>
-.main-container {
-  display: flex;
-  flex-direction: row;
-  /*height: 600px;*/
-  height: 90vh;
+<style>
+html, body {
+  margin: 0;
+  height: 100vh;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.main-section {
-  border: 1px solid grey;
-  height: 100%;
-  flex: 1;
+.large-text { 
+  font-size: 48px; 
 }
-
-.friends {
-}
-
-.conversation {
-  align-self: flex-end
-}
-
-.utils {
+.medium-text { 
+  font-size: 24px; 
 }
 </style>

@@ -22,10 +22,6 @@ const mutations = {
 }
 
 const actions = {	
-  async getMostRecent ({ state, rootState, commit }) {
-
-  },
-
 	sendMessage ({ commit, rootState }, { text, created, sender, conversationId }) {
 		const convoRef = rootState.db.collection('conversations').doc(conversationId)
 
@@ -62,9 +58,7 @@ const actions = {
       const data = conversation.data()
       commit('SET_CONVERSATION', { conversation })
       
-      console.log(data)
       for (let m in data.messages) {
-        console.log('Adding messages', data.messages[m])
         commit('messages/ADD_MESSAGE', { conversationId, message: data.messages[m] }, { root: true })
       }
 
@@ -103,10 +97,6 @@ const actions = {
 
 		convos.forEach(conversation => commit('SET_CONVERSATION', { conversation }))
 	},
-	
-	seed ({ rootState }) {
-		// let convoRef = rootState.db.collection('conversations')
-	}
 }
 
 export const getters = {

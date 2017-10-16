@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fire-input {
+  padding: 8px;
+  font-size: 16px;
+  margin: 2px;
+  background: lightgrey;
+  width: 256px;
+}
+
+.fire-button {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin: 2px;
+  width: 150px;
+  font-size: 16px;
+  background-color: transparent;
+  border: 2px solid red;
+  border-radius: 4px;
+  color: red;
+}
+
+.fire-button:hover {
+  background-color: rgb(255, 155, 0);
+}

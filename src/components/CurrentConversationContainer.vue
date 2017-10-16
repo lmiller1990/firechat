@@ -39,21 +39,17 @@
     data () {
       return {
         newMessage: '',
-        needScrollToLastMessage: true
       }
     },
 
     updated () {
-      this.scrollIfNeeded()
+      this.scrollToLastMessage()
     },
 
     methods: {
-      scrollIfNeeded () {
-        if (this.needScrollToLastMessage) {
-          const el = this.$el.querySelector('.messages')
-          el.scrollTop = el.scrollHeight
-          this.needScrollToLastMessage = false
-        }
+      scrollToLastMessage () {
+        const el = this.$el.querySelector('.messages')
+        el.scrollTop = el.scrollHeight
       },
 
       send () {
@@ -81,10 +77,6 @@
                 message: messages[m]
               })
             }
-
-            // new messages added so we should rescroll
-            this.needScrollToLastMessage = true
-            this.scrollIfNeeded()
           })
       }
     },

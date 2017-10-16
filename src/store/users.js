@@ -72,6 +72,7 @@ const actions = {
       userRef.doc(uid).update({ email, lastSignin: Date.now() })
 
       commit(types.SET_USER, { email, uid })
+      console.log('Verified Identity. Welcome', email)
 
     } catch (e) {
       console.log('Error signing in', e)
