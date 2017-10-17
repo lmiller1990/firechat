@@ -19,5 +19,6 @@ The challenges involved were:
 A traditional relational database would lend itself to something like this:
 
 Users
+
 | id | email | displayname | password |
 | 1 | abc@def.com | Abc Man | * * * |
