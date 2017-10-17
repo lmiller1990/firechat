@@ -61,30 +61,9 @@
       }
     },
 
-    watch: {
-      /*'$store.state.conversations.currentId' () {
-        this.$store.state.db.collection('conversations').doc(this.currentConversationId)
-          .onSnapshot(snapshot => {
-            let source = snapshot.metadata.hasPendingWrites ? 'Local' : 'Server'
-            console.log('[ConversationContainer]: source', source)
-            // TODO: 'Such and such is typing a message' console.log(`Source ${source}`)
-
-            const messages = snapshot.data().messages
-
-            for (let m in messages) {
-              this.$store.commit('messages/ADD_MESSAGE', {
-                conversationId: this.currentConversationId,
-                message: messages[m]
-              })
-            }
-          })
-      }*/
-    },
-
     computed: {
       ...mapState({
         messages: state => state.messages.all,
-        users: state => state.users.all
       }),
 
       ...mapGetters({
@@ -97,7 +76,6 @@
 
       members () {
         return this.$store.getters['users/displaynamesByUserIds'](this.currentConversation.users)
-        // return this.currentConversation.users.map(x => this.users[x].displayname).join(', ')
       }
     }
   }
