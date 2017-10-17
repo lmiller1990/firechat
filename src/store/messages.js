@@ -1,3 +1,5 @@
+import * as types from './mutation-types'
+
 import uuidv4 from 'uuid/v4'
 const state = {
   all: {},
@@ -5,7 +7,14 @@ const state = {
 }
 
 const m = '[Message Store]:'
+
 export const mutations = {
+  [types.RESET_MESSAGE_STORE] (state) {
+    console.log('[Message Store]: Resetting')
+    state.all = {}
+    state.allIds = state.allIds.splice(0)
+  },
+
 	ADD_MESSAGE (state, { conversationId, message }) {
 		if (!state.allIds.includes(message.id)) {
       state.all = {...state.all, [message.id]: { ...message, conversationId }}

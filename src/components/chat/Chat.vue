@@ -66,6 +66,10 @@
 
     created () {
       if (this.$store.state.users.currentUser.uid === null) {
+        this.$store.commit('messages/RESET_MESSAGE_STORE')
+        this.$store.commit('conversations/RESET_CONVO_STORE')
+        this.$store.commit('users/RESET_USER_STORE')
+
         this.$router.push({ name: 'home' })
 
       } else {

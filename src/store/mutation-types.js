@@ -1,3 +1,7 @@
 export const CREATE_USER = 'CREATE_USER'
 export const SET_USER = 'SET_USER'
 export const APPEND_USER = 'APPEND_USER'
+
+export const RESET_USER_STORE = 'RESET_USER_STORE'
+export const RESET_CONVO_STORE = 'RESET_CONVO_STORE'
+export const RESET_MESSAGE_STORE = 'RESET_MESSAGE_STORE'

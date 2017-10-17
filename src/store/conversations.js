@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import * as types from './mutation-types'
 import uuidv4 from 'uuid/v4'
 
 const state = {
@@ -8,6 +9,13 @@ const state = {
 }
 
 const mutations = {
+  [types.RESET_CONVO_STORE] (state) {
+    console.log('[Conversation Store]: Resetting')
+    state.all = {}
+    state.allIds = state.allIds.splice(0)
+    state.currentId = null
+  },
+
   SET_CURRENT_CONVERSATION_ID (state, { id }) {
     state.currentId = id
   },
@@ -24,6 +32,7 @@ const mutations = {
 
 const actions = {	
   async fetchById ({ state, rootState, commit }, { id }) {
+    console.log(`[Conversation Store] Fetching by id: ${id}`)
     const convoRef = rootState.db.collection('conversations')
     const fetchedConvo = await convoRef.doc(id).get()
 
@@ -67,6 +76,7 @@ const actions = {
 
       commit('SET_CURRENT_CONVERSATION_ID', { id: uuid })
     } else {
+      console.log(`Already exists`, conversationWithUsers[0])
       commit('SET_CURRENT_CONVERSATION_ID', { id: conversationWithUsers[0] })
     }
   }

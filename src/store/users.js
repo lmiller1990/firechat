@@ -11,6 +11,16 @@ const state = {
 }
 
 export const mutations = {
+  [types.RESET_USER_STORE] (state) {
+    console.log('[User store]: Resetting')
+    state.all = {}
+    state.allIds = state.allIds.splice(0)
+    state.currentUser = {
+      uid: null,
+      email: null
+    }
+  },
+
   [types.SET_USER] (state, { uid, email }) {
     state.currentUser.uid = uid
     state.currentUser.email = email
