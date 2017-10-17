@@ -29,12 +29,14 @@
         this.$store.dispatch('users/signin', { email: 'abc@de.com', password: 'password' })
         .then(() => this.$router.push({ name: 'chat' }))
       },
+
       signin () {
         if (this.email.length > 6 && this.password.length > 6) {
           this.$store.dispatch('users/signin', { 
             email: this.email, password: this.password 
           })
           .then(() => this.$router.push({ name: 'chat' }))
+          .catch(err => console.log('Error', err))
         }
       }
     }

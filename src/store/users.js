@@ -64,19 +64,15 @@ const actions = {
   },
 
   async signin ({ commit, rootState }, { email, password }) {
-    try {
-      const response = await firebase.auth().signInWithEmailAndPassword(email, password)
-      const userRef = rootState.db.collection('users')
-      const { uid } = response
+    const response = await firebase.auth().signInWithEmailAndPassword(email, password)
 
-      userRef.doc(uid).update({ email, lastSignin: Date.now() })
+    const userRef = rootState.db.collection('users')
+    const { uid } = response
 
-      commit(types.SET_USER, { email, uid })
-      console.log('Verified Identity. Welcome', email)
+    userRef.doc(uid).update({ email, lastSeen: Date.now() })
 
-    } catch (e) {
-      console.log('Error signing in', e)
-    }
+    commit(types.SET_USER, { email, uid })
+    console.log('Verified Identity. Welcome', email)
   } 
 }
 
