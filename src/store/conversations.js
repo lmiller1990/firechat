@@ -37,7 +37,8 @@ const actions = {
     const currentUser = rootState.users.all[rootState.users.currentUser.uid]
     const currentUserConvos = currentUser.conversations
 
-    if (getters.doesExist(currentUser.id, user.id) === false) {
+    const conversationWithUsers = getters.doesExist(currentUser.id, user.id) 
+    if (conversationWithUsers.length === 0) {
       console.log('[Conversations.js]: Creating new conversation.')
 
       // need to create a new one
@@ -63,6 +64,10 @@ const actions = {
       userRef.doc(rootState.users.currentUser.uid).update({
         conversations: [...currentUser.conversations, uuid]
       })
+
+      commit('SET_CURRENT_CONVERSATION_ID', { id: uuid })
+    } else {
+      commit('SET_CURRENT_CONVERSATION_ID', { id: conversationWithUsers[0] })
     }
   }
 }
@@ -76,7 +81,7 @@ export const getters = {
     return state.allIds.filter(x => 
       state.all[x].users.includes(currentUserId) &&
       state.all[x].users.includes(userId)
-    ).length > 0
+    )
   }
 }
 

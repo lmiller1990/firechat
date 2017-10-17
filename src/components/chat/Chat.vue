@@ -16,8 +16,13 @@
         </button>
       </div>
 
-      <SidebarFriendsContainer v-if="showFriendsContainer"/>
-      <SidebarConversationsContainer v-else />
+      <SidebarFriendsContainer 
+        v-show="showFriendsContainer"
+      />
+
+      <SidebarConversationsContainer 
+        v-show="!showFriendsContainer" 
+      />
     </div>
 
     <div class="main-section conversation">

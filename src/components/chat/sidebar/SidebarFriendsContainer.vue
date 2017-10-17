@@ -4,7 +4,8 @@
       <SidebarUserItem 
         v-for="id in allUserIdsExceptCurrent" 
         :key="id" 
-        :user="allUsers[id]" />
+        :user="allUsers[id]" 
+      />
     </div>
   </div>
 </template>

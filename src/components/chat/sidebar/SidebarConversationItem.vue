@@ -49,6 +49,7 @@
     },
 
     created () {
+      console.log('Created', this.id)
       this.$store.state.db.collection('conversations').where('id', '==', this.id)
         .onSnapshot(snapshot => {
           var source = snapshot.metadata.hasPendingWrites ? "Local" : "Server";
@@ -58,15 +59,17 @@
             const data = convo.data()
 
             data.messages.forEach(message => {
-              if (this.$store.state.messages.allIds.includes(message.id) === false)
+              if (this.$store.state.messages.allIds.includes(message.id) === false) {
                 this.$store.commit('conversations/SET_MOST_RECENT_MESSAGE_ID', {
                   conversationId: this.id,
                   messageId: message.id
                 })
+                console.log('Adding message')
                 this.$store.commit('messages/ADD_MESSAGE', {
                   conversationId: this.id,
                   message
-                })
+                }) 
+              }
             })
           })
         })
