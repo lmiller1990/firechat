@@ -58,6 +58,7 @@
           sender: this.$store.state.users.currentUser.uid,
           text: this.newMessage 
         })
+        this.newMessage = ''
       }
     },
 

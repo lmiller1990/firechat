@@ -30,10 +30,13 @@ const actions = {
 
     mostRecent.forEach(u => {
       let userData = u.data()
-      if (u.id !== state.currentUser.uid)
+      console.log(userData)
+      if (u.id !== state.currentUser.uid) {
+        if (userData.displayname !== 'lily')
         commit(types.APPEND_USER, { 
           user: { id: u.id, ...userData }}
         )
+      }
     })
   },
 

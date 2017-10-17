@@ -65,19 +65,24 @@
     },
 
     created () {
+      if (this.$store.state.users.currentUser.uid === null) {
+        this.$router.push({ name: 'home' })
+
+      } else {
       // users - only load one.
-      this.$store.dispatch('users/getMostRecent')
+        this.$store.dispatch('users/getMostRecent')
 
-      this.$store.state.db.collection('users').doc(this.$store.state.users.currentUser.uid)
-        .onSnapshot(snapshot => {
-          let conversations = snapshot.data().conversations
+        this.$store.state.db.collection('users').doc(this.$store.state.users.currentUser.uid)
+          .onSnapshot(snapshot => {
+            let conversations = snapshot.data().conversations
 
-          // add new conversations
-          for (let c in conversations) {
-            if (this.$store.state.conversations.allIds.includes(conversations[c]) === false)
-              this.$store.dispatch('conversations/fetchById', { id: conversations[c] })
-          }
-        })
+            // add new conversations
+            for (let c in conversations) {
+              if (this.$store.state.conversations.allIds.includes(conversations[c]) === false)
+                this.$store.dispatch('conversations/fetchById', { id: conversations[c] })
+            }
+          })
+      }
     },
   }
 </script>
