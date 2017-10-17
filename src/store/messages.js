@@ -19,11 +19,14 @@ const actions = {
     let convoRef = rootState.db.collection('conversations').doc(conversationId)
     let conversation = await convoRef.get()
 
+    const id = uuidv4()
+
     return convoRef.update({
+      mostRecentMessage: id,
       messages: [
         ...conversation.data().messages, 
         {
-          id: uuidv4(),
+          id,
           created: Date.now(),
           sender,
           text

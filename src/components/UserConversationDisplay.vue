@@ -1,6 +1,5 @@
 <template>
   <div class="container" @click="enterConversation">
-
     <div>
       {{ user.displayname }}
       <div class="inline-details">
@@ -8,12 +7,13 @@
       </div>
     </div>
 
-
     <div class="last-seen">active {{ $moment(user.lastSeen).fromNow() }}</div>
   </div>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     name: 'UserConversationDisplay',
 
@@ -28,7 +28,7 @@
       enterConversation () {
         this.$store.dispatch('conversations/createOrFetchConversation', { user: this.user })
       }
-    }
+    },
   }
 </script>
 

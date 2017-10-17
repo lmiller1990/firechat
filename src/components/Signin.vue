@@ -26,8 +26,11 @@
 
     methods: {
       mock () {
-        this.$store.dispatch('users/signin', { email: 'abc@de.com', password: 'password' })
-        .then(() => this.$router.push({ name: 'chat' }))
+        this.$store.dispatch('users/signin', { email: 'lachlan@test.com', password: 'password' })
+          .then(() => {
+            this.$store.dispatch('conversations/getCurrentUserConversations')
+            this.$router.push({ name: 'chat' })
+          })
       },
 
       signin () {

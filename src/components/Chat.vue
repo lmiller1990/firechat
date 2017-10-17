@@ -1,7 +1,10 @@
 <template>
   <div class="main-container">
-    <div class="main-section friends">
-      <FriendsContainer />
+    <div class="main-section friends" v-if="$store.state.users.currentUser">
+      <button @click="showFriendsContainer = true">Show Friends</button>
+      <button @click="showFriendsContainer = false">Show Conversations</button>
+      <FriendsContainer v-if="showFriendsContainer"/>
+      <ConversationsWithFriendsContainer v-else />
     </div>
 
     <div class="main-section conversation">
@@ -18,13 +21,21 @@
   import CurrentConversationContainer from './CurrentConversationContainer.vue'
   import FriendsContainer from './FriendsContainer.vue'
   import Profile from './Profile.vue'
+  import ConversationsWithFriendsContainer from './ConversationsWithFriendsContainer.vue'
 
   export default {
     name: 'Chat',
+
+    data () {
+      return {
+        showFriendsContainer: true
+      }
+    },
     
     components: {
       FriendsContainer,
       CurrentConversationContainer,
+      ConversationsWithFriendsContainer,
       Profile
     },
   }

@@ -91,4 +91,14 @@ This works great for systems where real time updates are required, just the most
 
 For something like a chat application, where you only want the most recent data for a particular conversation, and real time updates are essential, we need a way to update the page without refreshing. Enter: JavaScript, a language that operates in the browser, and can manipulate the interface without requiring a reload.
 
+#### Direct DOM manipulation - the "old" way
 
+Let's say the conversation looks like this:
+
+The traditional way to approach this kind of task is as follows.
+
+Old Elements
+
+Message 1: Hi
+Message 2: What's up
+Message 3: I'm doing great

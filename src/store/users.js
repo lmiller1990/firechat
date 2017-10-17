@@ -11,7 +11,7 @@ const state = {
 }
 
 export const mutations = {
-  SET_USER (state, { uid, email }) {
+  [types.SET_USER] (state, { uid, email }) {
     state.currentUser.uid = uid
     state.currentUser.email = email
   },
@@ -69,14 +69,26 @@ const actions = {
     const userRef = rootState.db.collection('users')
     const { uid } = response
 
-    userRef.doc(uid).update({ email, lastSeen: Date.now() })
+    const updated = await userRef.doc(uid).update({ email, lastSeen: Date.now() })
+    const user = await userRef.doc(uid).get()
 
+    console.log(user.id, user.data())
     commit(types.SET_USER, { email, uid })
+    commit(types.APPEND_USER, { 
+      user: {
+        id: user.id,
+        ...user.data() 
+      }
+    })
     console.log('Verified Identity. Welcome', email)
   } 
 }
 
 export const getters = {
+  currentUserWithConvos: state => {
+    return state.all[state.currentUser.uid]
+  },
+
   allUserIdsExceptCurrent: state => {
     return state.allIds.filter(x => x !== state.currentUser.uid)
   }

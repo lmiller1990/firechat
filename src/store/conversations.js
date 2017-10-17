@@ -4,34 +4,36 @@ import uuidv4 from 'uuid/v4'
 const state = {
 	all: {},
 	allIds: [],
+  userConversationIds: [],
   currentId: null
 }
 
 const mutations = {
+  ADD_USER_CONVERSATION (state, { conversationId }) {
+    if (!state.userConversationIds.includes(conversationId))
+      state.userConversationIds.push(conversationId)
+  },
+
   SET_CURRENT_ID (state, { id }) {
     state.currentId = id
   },
 
 	SET_CONVERSATION (state, { conversation }) {
 		const data = conversation.data()
-		state.all = {...state.all, [conversation.id]: { users: data.users, created: data.created }} 
+		state.all = {
+      ...state.all, 
+      [conversation.id]: { 
+        users: data.users, 
+        created: data.created,
+        mostRecentMessage: data.mostRecentMessage
+      }
+    } 
 
-    if (state.allIds.includes(conversation.id) === false)
-      state.allIds.push(conversation.id)
+    state.allIds.push(conversation.id)
 	},
 }
 
 const actions = {	
-	sendMessage ({ commit, rootState }, { text, created, sender, conversationId }) {
-		const convoRef = rootState.db.collection('conversations').doc(conversationId)
-
-		convoRef.update({
-			messages: [...state.all[conversationId].messages, { id: uuidv4(), created, sender, text }]
-		})
-		.then(res => console.log('Message sent.'))
-		.catch(err => console.log('Error', err))
-	},
-	
   async createOrFetchConversation ({ state, rootState, commit }, { user }) {
     // get current user
     const currentUser = rootState.users.currentUser
@@ -56,7 +58,9 @@ const actions = {
 
       const conversation = await convoRef.doc(conversationId).get()
       const data = conversation.data()
-      commit('SET_CONVERSATION', { conversation })
+
+      if (state.allIds.includes(conversation.id) === false)
+        commit('SET_CONVERSATION', { conversation })
       
       for (let m in data.messages) {
         commit('messages/ADD_MESSAGE', { conversationId, message: data.messages[m] }, { root: true })
@@ -71,6 +75,7 @@ const actions = {
     if (found === false) {
       const newConvo = await convoRef.add({
         created: Date.now(),
+        mostRecentMessage: null,
         messages: [],
         users: [user.id, currentUser.uid]
       })
@@ -94,18 +99,33 @@ const actions = {
     }
   },
 
-	async get ({ commit, rootState }) {
-		let convoRef = rootState.db.collection('conversations')
-		let convos = await convoRef.get()
+  async getCurrentUserConversations ({ rootState, commit }) {
+    const convoRef = rootState.db.collection('conversations')
+    const userRef = rootState.db.collection('users')
 
-		convos.forEach(conversation => commit('SET_CONVERSATION', { conversation }))
-	},
+    const user = await userRef.doc(rootState.users.currentUser.uid).get()
+
+    user.data().conversations
+      .forEach(async conversationId => {
+        const conversation = await convoRef.doc(conversationId).get()
+
+        commit('ADD_USER_CONVERSATION', { conversationId })
+        commit('SET_CONVERSATION', { conversation })
+
+        conversation.data().messages.forEach(message => {
+          commit('messages/ADD_MESSAGE', { 
+            conversationId, 
+            message,
+          }, { root: true })
+        })
+      })
+  }
 }
 
 export const getters = {
   currentConversation: state => {
     return state.all[state.currentId]
-  }
+  },
 }
 
 export default { namespaced: true, state, mutations, actions, getters }
