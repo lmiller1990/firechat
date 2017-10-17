@@ -4,6 +4,7 @@ My article about this was published on Vue.js Developers: https://vuejsdeveloper
 
 Images:
 
-[[https://github.com/lmiller1990/firechat/blob/master/images/login.png|alt=login]]
-[[https://github.com/lmiller1990/firechat/blob/master/images/chat.png|alt=chat]]
+![alt text](https://github.com/lmiller1990/firechat/blob/master/images/chat.png "Chat")
+![alt text](https://github.com/lmiller1990/firechat/blob/master/images/login.png "Login")
+
 
