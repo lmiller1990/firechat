@@ -8,15 +8,7 @@ const state = {
 }
 
 const mutations = {
-  /*ADD_USER_CONVERSATION (state, { conversationId }) {
-    if (!state.userConversationIds.includes(conversationId))
-      state.userConversationIds.push(conversationId)
-  },*/
   SET_CURRENT_CONVERSATION_ID (state, { id }) {
-    state.currentId = id
-  },
-
-  SET_CURRENT_ID (state, { id }) {
     state.currentId = id
   },
 
@@ -120,12 +112,15 @@ async getCurrentUserConversations ({ rootState, commit }) {
     let found = false
 
     for (let i in currentUserConvos) {
-      if (state.all[currentUserConvos].users.includes(user.id)) {
+      if (state.all[currentUserConvos[i]].users.includes(user.id)) {
         found = true
       }     
     }
 
+    console.log(`Found is ${found}`)
+
     if (found === false) {
+      console.log('Creating')
       // need to create a new one
       // 1. Create conversation. Add both users.
       // 2. Add ref to convo to both users.
@@ -138,8 +133,6 @@ async getCurrentUserConversations ({ rootState, commit }) {
         mostRecentMessageId: null,
         users: [user.id, rootState.users.currentUser.uid]
       })
-
-      console.log('Created new conversation', newConvo.id)
 
       userRef.doc(user.id).update({
         conversations: [...user.conversations, newConvo.id]

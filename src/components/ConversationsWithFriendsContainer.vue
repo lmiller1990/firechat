@@ -2,7 +2,9 @@
   <div>
     Conversations
     <div v-for="id in conversationIds" @click="enterConversation(id)">
-      {{ id }} {{ conversations[id] }}
+      {{ id }}  wiith {{ conversations[id].users }}
+      <br/>
+      <br/>
     </div>
   </div>
 </template>
