@@ -38,7 +38,9 @@
           this.$store.dispatch('users/signin', { 
             email: this.email, password: this.password 
           })
-          .then(() => this.$router.push({ name: 'chat' }))
+            .then(() => {
+              this.$router.push({ name: 'chat' })
+            })
           .catch(err => console.log('Error', err))
         }
       }

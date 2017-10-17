@@ -1,9 +1,8 @@
 <template>
   <div>
     Conversations
-    <div v-for="id in userConversationIds">
-      {{ id }}
-      {{ messages[conversations[id].mostRecentMessage].text }}
+    <div v-for="id in conversationIds" @click="enterConversation(id)">
+      {{ id }} {{ conversations[id] }}
     </div>
   </div>
 </template>
@@ -16,10 +15,15 @@
 
     computed: {
       ...mapState({
-        messages: state => state.messages.all,
         conversations: state => state.conversations.all,
-        userConversationIds: state => state.conversations.userConversationIds
+        conversationIds: state => state.conversations.allIds
       })
+    },
+
+    methods: {
+      enterConversation (id) {
+        this.$store.commit('conversations/SET_CURRENT_CONVERSATION_ID', { id })
+      }
     }
   }
 </script>

@@ -40,9 +40,10 @@ const actions = {
 
     mostRecent.forEach(u => {
       let userData = u.data()
-      commit(types.APPEND_USER, { 
-        user: { id: u.id, ...userData }}
-      )
+      if (u.id !== state.currentUser.uid)
+        commit(types.APPEND_USER, { 
+          user: { id: u.id, ...userData }}
+        )
     })
   },
 
@@ -72,8 +73,8 @@ const actions = {
     const updated = await userRef.doc(uid).update({ email, lastSeen: Date.now() })
     const user = await userRef.doc(uid).get()
 
-    console.log(user.id, user.data())
     commit(types.SET_USER, { email, uid })
+
     commit(types.APPEND_USER, { 
       user: {
         id: user.id,

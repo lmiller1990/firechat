@@ -31,6 +31,11 @@
         showFriendsContainer: true
       }
     },
+
+    created () {
+      this.$store.dispatch('users/getMostRecent')
+      this.$store.dispatch('conversations/getCurrentUserConversations')
+    },
     
     components: {
       FriendsContainer,

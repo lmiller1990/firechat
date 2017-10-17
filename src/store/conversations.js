@@ -2,25 +2,32 @@ import Vue from 'vue'
 import uuidv4 from 'uuid/v4'
 
 const state = {
-	all: {},
-	allIds: [],
-  userConversationIds: [],
+  all: {},
+  allIds: [],
   currentId: null
 }
 
 const mutations = {
-  ADD_USER_CONVERSATION (state, { conversationId }) {
+  /*ADD_USER_CONVERSATION (state, { conversationId }) {
     if (!state.userConversationIds.includes(conversationId))
       state.userConversationIds.push(conversationId)
+  },*/
+  SET_CURRENT_CONVERSATION_ID (state, { id }) {
+    state.currentId = id
   },
 
   SET_CURRENT_ID (state, { id }) {
     state.currentId = id
   },
 
-	SET_CONVERSATION (state, { conversation }) {
-		const data = conversation.data()
-		state.all = {
+  ADD_CONVERSATION (state, { id, conversation }) {
+    state.all = { ...state.all, [id]: {...conversation } }
+    state.allIds.push(id)
+  },
+
+  SET_CONVERSATION (state, { conversation }) {
+    const data = conversation.data()
+    state.all = {
       ...state.all, 
       [conversation.id]: { 
         users: data.users, 
@@ -30,49 +37,30 @@ const mutations = {
     } 
 
     state.allIds.push(conversation.id)
-	},
+  },
 }
 
 const actions = {	
-  async createOrFetchConversation ({ state, rootState, commit }, { user }) {
-    // get current user
-    const currentUser = rootState.users.currentUser
-
-    // get references to documents in Firestore
+  /*
     let convoRef = rootState.db.collection('conversations')
     let userRef = rootState.db.collection('users')
-
-    // ref to current user all convos
-    const currentUserConvos = await userRef.doc(currentUser.uid).get()
-
-    // ref to the friend convos - we will need to creat and add a ref. to both if it doesn't exist.
-    const friendsConvos = await userRef.doc(user.id).get()
-
-    // actual convos for current user
-    const conversations = currentUserConvos.data().conversations
-
+    const currentUser = rootState.users.currentUser
     let found = false
 
-    for (let c in conversations) {
-      const conversationId = conversations[c]
+    for (let i = 0; i < state.userConversationIds.length; i++) {
+      const current = state.all[state.userConversationIds[i]]
 
-      const conversation = await convoRef.doc(conversationId).get()
-      const data = conversation.data()
-
-      if (state.allIds.includes(conversation.id) === false)
-        commit('SET_CONVERSATION', { conversation })
-      
-      for (let m in data.messages) {
-        commit('messages/ADD_MESSAGE', { conversationId, message: data.messages[m] }, { root: true })
-      }
-
-      if (conversation.data().users.includes(user.id)) {
+      if (current.users.includes(user.id)) {
+        // exists - set
+        commit('SET_CURRENT_ID', { id: state.userConversationIds[i] })
         found = true
-        commit('SET_CURRENT_ID', { id: conversationId })
-      }
-    }
+      } 
+    } 
+// new - create it
 
     if (found === false) {
+      console.log('[Conversations]: Creating new')
+// ref to the friend convos - we will need to creat and add a ref. to both if it doesn't exist.
       const newConvo = await convoRef.add({
         created: Date.now(),
         mostRecentMessage: null,
@@ -80,45 +68,87 @@ const actions = {
         users: [user.id, currentUser.uid]
       })
 
+      const created = await convoRef.doc(newConvo.id).get()
+
+// add to current user convos, also update references
+
       userRef.doc(currentUser.uid).update({ 
         lastSeen: Date.now(), 
-        conversations: [...conversations, newConvo.id]
+        conversations: [...state.userConversationIds, created.id]
       })
 
+      const friendsConvos = await userRef.doc(user.id).get()
       const friendsData = friendsConvos.data()
 
       userRef.doc(user.id).update({ 
         lastSeen: Date.now(), 
-        conversations: [...friendsData.conversations, newConvo.id]
+        conversations: [...friendsData.conversations, created.id]
       })
-      
-      const fetchNewConvo = await convoRef.doc(newConvo.id).get()
 
-      commit('SET_CONVERSATION', { conversation: fetchNewConvo })
-      commit('SET_CURRENT_ID', { id: newConvo.id })
+// const fetchNewConvo = await convoRef.doc(newConvo.id).get()
+
+      commit('SET_CONVERSATION', { conversation: created })
+      commit('ADD_USER_CONVERSATION', { conversationId: created.id })
+
+      commit('SET_CURRENT_ID', { id: created.id })
     }
   },
 
-  async getCurrentUserConversations ({ rootState, commit }) {
-    const convoRef = rootState.db.collection('conversations')
-    const userRef = rootState.db.collection('users')
+  //const userConversations = rootState.users.currentUser
 
-    const user = await userRef.doc(rootState.users.currentUser.uid).get()
+*/
+async getCurrentUserConversations ({ rootState, commit }) {
+  const convoRef = rootState.db.collection('conversations')
 
-    user.data().conversations
-      .forEach(async conversationId => {
-        const conversation = await convoRef.doc(conversationId).get()
+  const currentUserConvoIds = rootState.users.all[rootState.users.currentUser.uid].conversations
 
-        commit('ADD_USER_CONVERSATION', { conversationId })
-        commit('SET_CONVERSATION', { conversation })
+  for (let id in currentUserConvoIds) {
+    const conversation = await convoRef.doc(currentUserConvoIds[id]).get()
 
-        conversation.data().messages.forEach(message => {
-          commit('messages/ADD_MESSAGE', { 
-            conversationId, 
-            message,
-          }, { root: true })
-        })
+    commit('ADD_CONVERSATION', { 
+      id: conversation.id,
+      conversation: conversation.data() 
+    })
+  }
+},
+
+  async createOrFetchConversation ({ state, rootState, commit }, { user }) {
+    console.log('[Conversations]: Fetching')
+    // do we need to create a new convo?
+    const currentUser = rootState.users.all[rootState.users.currentUser.uid]
+    const currentUserConvos = currentUser.conversations
+    let found = false
+
+    for (let i in currentUserConvos) {
+      if (state.all[currentUserConvos].users.includes(user.id)) {
+        found = true
+      }     
+    }
+
+    if (found === false) {
+      // need to create a new one
+      // 1. Create conversation. Add both users.
+      // 2. Add ref to convo to both users.
+      const userRef = rootState.db.collection('users')
+      const convoRef = rootState.db.collection('conversations')
+
+      const newConvo = await convoRef.add({
+        created: Date.now(),
+        messages: [],
+        mostRecentMessageId: null,
+        users: [user.id, rootState.users.currentUser.uid]
       })
+
+      console.log('Created new conversation', newConvo.id)
+
+      userRef.doc(user.id).update({
+        conversations: [...user.conversations, newConvo.id]
+      })
+
+      userRef.doc(rootState.users.currentUser.uid).update({
+        conversations: [...currentUser.conversations, newConvo.id]
+      })
+    }
   }
 }
 
