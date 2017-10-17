@@ -84,6 +84,7 @@ const actions = {
 
 export const getters = {
   displaynamesByUserIds: state => userIds => {
+    console.log('ids', userIds)
     return userIds.map(x => state.all[x].displayname)
   },
 

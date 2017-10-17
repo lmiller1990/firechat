@@ -1,7 +1,11 @@
 <template>
-  <div @click="enterConversation">
-    Conversation with: {{ members }}
-    {{ mostRecentMessage }}
+  <div class="container" @click="enterConversation">
+    <div>
+      {{ members }}
+    </div>
+    <div class="last-seen">
+      {{ mostRecentMessage }}
+    </div>
   </div>
 </template>
 
@@ -21,11 +25,13 @@
     computed: {
       ...mapState({
         conversations: state => state.conversations.all,
-        messages: state => state.messages.all
+        messages: state => state.messages.all,
+        currentUserId: state => state.users.currentUser.uid
       }),
 
       members () {
-        return this.$store.getters['users/displaynamesByUserIds'](this.conversations[this.id].users)
+        return this.$store.getters['users/displaynamesByUserIds']
+          (this.conversations[this.id].users.filter(x => x !== this.currentUserId))[0]
       },
 
       mostRecentMessage () {
@@ -69,4 +75,23 @@
 </script>
 
 <style scoped>
+.container {
+  border-bottom: 1px solid silver;
+  padding: 5px;
+}
+
+.container:hover {
+  background-color: rgba(255, 155, 0, 0.25);
+  cursor: pointer;
+}
+
+.last-seen {
+  font-size: 0.8em;
+  text-align: right;
+}
+
+.inline-details {
+  text-align: right;
+  font-size: 0.5em;
+}
 </style>

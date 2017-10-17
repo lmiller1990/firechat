@@ -1,6 +1,5 @@
 <template>
   <div>
-    Conversations
     <Conversation v-for="id in conversationIds" :id="id" :key="id" />
     <br />
     <br />
@@ -22,8 +21,8 @@
     computed: {
       ...mapState({
         conversations: state => state.conversations.all,
-        conversationIds: state => state.conversations.allIds
-      })
+        conversationIds: state => state.conversations.allIds,
+      }),
     },
 
 
