@@ -2,9 +2,11 @@
   <div class="container" @click="enterConversation">
     <div>
       {{ user.displayname }}
-      <div class="inline-details">
+      <!--
+        <div class="inline-details">
         {{ user.email }}
       </div>
+      -->
     </div>
 
     <div class="last-seen">active {{ $moment(user.lastSeen).fromNow() }}</div>

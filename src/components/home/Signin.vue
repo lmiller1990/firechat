@@ -9,7 +9,7 @@
       @keydown.enter.prevent="signin" />
 
     <button @click.prevent="signin" class="fire-button">Sign in</button>
-    <button @click.prevent="mock" class="fire-button">Mock in</button>
+    <!--<button @click.prevent="mock" class="fire-button">Mock in</button>-->
   </div>
 </template>
 
