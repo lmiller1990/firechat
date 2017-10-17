@@ -10,7 +10,7 @@
 
     props: {
       members: {
-        type: String,
+        type: Array,
         required: true
       }
     }

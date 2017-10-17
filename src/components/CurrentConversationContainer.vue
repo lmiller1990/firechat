@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header" v-if="currentConversation">
+    <div class="header">
       <CurrentConversationHeader :members="members" />
     </div>
 
@@ -84,7 +84,6 @@
     computed: {
       ...mapState({
         messages: state => state.messages.all,
-        currentConversationId: state => state.conversations.currentId,
         users: state => state.users.all
       }),
 
@@ -93,11 +92,12 @@
       }),
       
       messageIdsByConversation () {
-        return this.$store.getters['messages/messageIdsByConversation'](this.currentConversationId)
+        return this.$store.getters['messages/messageIdsByConversation'](this.currentConversation.id)
       },
 
       members () {
-        return this.currentConversation.users.map(x => this.users[x].displayname).join(', ')
+        return this.$store.getters['users/displaynamesByUserIds'](this.currentConversation.users)
+        // return this.currentConversation.users.map(x => this.users[x].displayname).join(', ')
       }
     }
   }

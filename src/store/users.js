@@ -83,8 +83,8 @@ const actions = {
 }
 
 export const getters = {
-  currentUserWithConvos: state => {
-    return state.all[state.currentUser.uid]
+  displaynamesByUserIds: state => userIds => {
+    return userIds.map(x => state.all[x].displayname)
   },
 
   allUserIdsExceptCurrent: state => {

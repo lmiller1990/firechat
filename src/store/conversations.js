@@ -46,8 +46,6 @@ const actions = {
     commit('ADD_CONVERSATION', { 
       conversation: fetchedConvo.data()
     })
-
-    commit('ADD_CONVERSATION_TO_CURRENT_USER')
   },
 
   async createOrFetchConversation ({ state, rootState, commit, getters }, { user }) {
@@ -57,15 +55,9 @@ const actions = {
     const currentUserConvos = currentUser.conversations
     let found = false
 
-    if (getters.doesntExist(currentUser.id, user.id)) {
-      found = false
+    if (getters.doesExist(currentUser.id, user.id)) {
+      found = true
     }
-    /*for (let i in currentUserConvos) {
-      if (state.all[currentUserConvos[i]].users.includes(user.id)) {
-        found = true
-      }     
-    }*/
-
     console.log(`Found is ${found}`)
 
     if (found === false) {
@@ -102,8 +94,18 @@ export const getters = {
     return state.all[state.currentId]
   },
 
-  doesntExist: state => (userId, currentUserId) => {
-    console.log(`checking for ${userId} and ${currentUserId}`)
+  doesExist: state => (userId, currentUserId) => {
+    console.log('Checking', userId, currentUserId)
+    let exists = false
+    for (let i in state.allIds) {
+      if (
+        state.all[state.allIds[i]].users.includes(userId) &&
+        state.all[state.allIds[i]].users.includes(currentUserId)
+      )
+        exists = true
+    }
+    // return exists
+
     return state.allIds.filter(x => 
       state.all[x].users.includes(currentUserId) &&
       state.all[x].users.includes(userId)

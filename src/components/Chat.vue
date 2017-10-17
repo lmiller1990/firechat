@@ -3,12 +3,13 @@
     <div class="main-section friends" v-if="$store.state.users.currentUser">
       <button @click="showFriendsContainer = true">Show Friends</button>
       <button @click="showFriendsContainer = false">Show Conversations</button>
+
       <FriendsContainer v-if="showFriendsContainer"/>
       <ConversationsWithFriendsContainer v-else />
     </div>
 
     <div class="main-section conversation">
-      <CurrentConversationContainer />
+      <CurrentConversationContainer v-if="currentConversation"/>
     </div>
 
     <div class="main-section placeholder">
@@ -35,19 +36,22 @@
     computed: {
       currentUserId () {
         this.$store.state.users.currentUser.uid
+      },
+      currentConversation () {
+        return this.$store.getters['conversations/currentConversation']
       }
     },
 
     created () {
       this.$store.dispatch('users/getMostRecent')
-      // this.$store.dispatch('conversations/getCurrentUserConversations')
 
       this.$store.state.db.collection('users').doc(this.$store.state.users.currentUser.uid)
         .onSnapshot(snapshot => {
           let conversations = snapshot.data().conversations
 
           for (let c in conversations) {
-            this.$store.dispatch('conversations/fetchById', { id: conversations[c] })
+            if (this.$store.state.conversations.allIds.includes(conversations[c]) === false)
+              this.$store.dispatch('conversations/fetchById', { id: conversations[c] })
           }
         })
     },

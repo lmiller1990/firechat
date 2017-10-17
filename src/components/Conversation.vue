@@ -1,12 +1,12 @@
 <template>
   <div @click="enterConversation">
-    {{ conversations[id].id}} 
-    {{ messages[conversations[id].mostRecentMessageId].text }}
+    Conversation with: {{ members }}
+    {{ mostRecentMessage }}
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
   export default {
     name: 'Conversation',
@@ -23,6 +23,17 @@
         conversations: state => state.conversations.all,
         messages: state => state.messages.all
       }),
+
+      members () {
+        return this.$store.getters['users/displaynamesByUserIds'](this.conversations[this.id].users)
+      },
+
+      mostRecentMessage () {
+        const message = this.messages[this.conversations[this.id].mostRecentMessageId] 
+        
+        if (message)
+          return message.text
+      }
     },
 
     methods: {
