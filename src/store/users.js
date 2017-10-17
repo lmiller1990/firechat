@@ -33,10 +33,7 @@ const actions = {
   async getMostRecent ({ state, commit, rootState }) {
     const userRef = rootState.db.collection('users')
 
-    const mostRecent = await userRef
-      //.orderBy('joined', 'desc')
-      //.limit(10)
-      .get()
+    const mostRecent = await userRef.get()
 
     mostRecent.forEach(u => {
       let userData = u.data()
@@ -70,10 +67,10 @@ const actions = {
     const userRef = rootState.db.collection('users')
     const { uid } = response
 
+    commit(types.SET_USER, { email, uid })
+
     const updated = await userRef.doc(uid).update({ email, lastSeen: Date.now() })
     const user = await userRef.doc(uid).get()
-
-    commit(types.SET_USER, { email, uid })
 
     commit(types.APPEND_USER, { 
       user: {

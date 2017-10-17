@@ -22,7 +22,7 @@ const actions = {
     const id = uuidv4()
 
     return convoRef.update({
-      mostRecentMessage: id,
+      mostRecentMessageId: id,
       messages: [
         ...conversation.data().messages, 
         {

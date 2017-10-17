@@ -28,13 +28,28 @@
 
     data () {
       return {
-        showFriendsContainer: true
+        showFriendsContainer: false
+      }
+    },
+
+    computed: {
+      currentUserId () {
+        this.$store.state.users.currentUser.uid
       }
     },
 
     created () {
       this.$store.dispatch('users/getMostRecent')
-      this.$store.dispatch('conversations/getCurrentUserConversations')
+      // this.$store.dispatch('conversations/getCurrentUserConversations')
+
+      this.$store.state.db.collection('users').doc(this.$store.state.users.currentUser.uid)
+        .onSnapshot(snapshot => {
+          let conversations = snapshot.data().conversations
+
+          for (let c in conversations) {
+            this.$store.dispatch('conversations/fetchById', { id: conversations[c] })
+          }
+        })
     },
     
     components: {

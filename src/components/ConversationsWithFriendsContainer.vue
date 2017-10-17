@@ -1,19 +1,23 @@
 <template>
   <div>
     Conversations
-    <div v-for="id in conversationIds" @click="enterConversation(id)">
-      {{ id }}  wiith {{ conversations[id].users }}
-      <br/>
-      <br/>
+    <Conversation v-for="id in conversationIds" :id="id" :key="id" />
+    <br />
+    <br />
     </div>
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
+  import Conversation from './Conversation.vue'
 
   export default {
     name: 'ConversationsWithFriendsContainer',
+
+    components: {
+      Conversation
+    },
 
     computed: {
       ...mapState({
@@ -21,6 +25,7 @@
         conversationIds: state => state.conversations.allIds
       })
     },
+
 
     methods: {
       enterConversation (id) {

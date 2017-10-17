@@ -1,0 +1,13 @@
+<template>
+  <div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'Converation'
+  }
+</script>
+
+<style scoped>
+</style>

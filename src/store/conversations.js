@@ -12,110 +12,59 @@ const mutations = {
     state.currentId = id
   },
 
-  ADD_CONVERSATION (state, { id, conversation }) {
-    state.all = { ...state.all, [id]: {...conversation } }
-    state.allIds.push(id)
+  SET_MOST_RECENT_MESSAGE_ID (state, { conversationId, messageId }) {
+    state.all[conversationId].mostRecentMessageId = messageId
   },
-
-  SET_CONVERSATION (state, { conversation }) {
-    const data = conversation.data()
-    state.all = {
-      ...state.all, 
-      [conversation.id]: { 
-        users: data.users, 
-        created: data.created,
-        mostRecentMessage: data.mostRecentMessage
-      }
-    } 
-
+  
+  ADD_CONVERSATION (state, { conversation }) {
+    console.log('convesation', conversation)
+    state.all = { ...state.all, [conversation.id]: {...conversation } }
     state.allIds.push(conversation.id)
   },
 }
 
 const actions = {	
-  /*
-    let convoRef = rootState.db.collection('conversations')
-    let userRef = rootState.db.collection('users')
-    const currentUser = rootState.users.currentUser
-    let found = false
+  async getCurrentUserConversations ({ rootState, commit }) {
+    const convoRef = rootState.db.collection('conversations')
 
-    for (let i = 0; i < state.userConversationIds.length; i++) {
-      const current = state.all[state.userConversationIds[i]]
+    const currentUserConvoIds = rootState.users.all[rootState.users.currentUser.uid].conversations
 
-      if (current.users.includes(user.id)) {
-        // exists - set
-        commit('SET_CURRENT_ID', { id: state.userConversationIds[i] })
-        found = true
-      } 
-    } 
-// new - create it
+    for (let id in currentUserConvoIds) {
+      const conversation = await convoRef.doc(currentUserConvoIds[id]).get()
 
-    if (found === false) {
-      console.log('[Conversations]: Creating new')
-// ref to the friend convos - we will need to creat and add a ref. to both if it doesn't exist.
-      const newConvo = await convoRef.add({
-        created: Date.now(),
-        mostRecentMessage: null,
-        messages: [],
-        users: [user.id, currentUser.uid]
+      commit('ADD_CONVERSATION', { 
+        id: conversation.id,
+        conversation: conversation.data() 
       })
-
-      const created = await convoRef.doc(newConvo.id).get()
-
-// add to current user convos, also update references
-
-      userRef.doc(currentUser.uid).update({ 
-        lastSeen: Date.now(), 
-        conversations: [...state.userConversationIds, created.id]
-      })
-
-      const friendsConvos = await userRef.doc(user.id).get()
-      const friendsData = friendsConvos.data()
-
-      userRef.doc(user.id).update({ 
-        lastSeen: Date.now(), 
-        conversations: [...friendsData.conversations, created.id]
-      })
-
-// const fetchNewConvo = await convoRef.doc(newConvo.id).get()
-
-      commit('SET_CONVERSATION', { conversation: created })
-      commit('ADD_USER_CONVERSATION', { conversationId: created.id })
-
-      commit('SET_CURRENT_ID', { id: created.id })
     }
   },
 
-  //const userConversations = rootState.users.currentUser
-
-*/
-async getCurrentUserConversations ({ rootState, commit }) {
-  const convoRef = rootState.db.collection('conversations')
-
-  const currentUserConvoIds = rootState.users.all[rootState.users.currentUser.uid].conversations
-
-  for (let id in currentUserConvoIds) {
-    const conversation = await convoRef.doc(currentUserConvoIds[id]).get()
+  async fetchById ({ state, rootState, commit }, { id }) {
+    const convoRef = rootState.db.collection('conversations')
+    const fetchedConvo = await convoRef.doc(id).get()
 
     commit('ADD_CONVERSATION', { 
-      id: conversation.id,
-      conversation: conversation.data() 
+      conversation: fetchedConvo.data()
     })
-  }
-},
 
-  async createOrFetchConversation ({ state, rootState, commit }, { user }) {
+    commit('ADD_CONVERSATION_TO_CURRENT_USER')
+  },
+
+  async createOrFetchConversation ({ state, rootState, commit, getters }, { user }) {
     console.log('[Conversations]: Fetching')
     // do we need to create a new convo?
     const currentUser = rootState.users.all[rootState.users.currentUser.uid]
     const currentUserConvos = currentUser.conversations
     let found = false
 
-    for (let i in currentUserConvos) {
+    if (getters.doesntExist(currentUser.id, user.id)) {
+      found = false
+    }
+    /*for (let i in currentUserConvos) {
       if (state.all[currentUserConvos[i]].users.includes(user.id)) {
         found = true
       }     
-    }
+    }*/
 
     console.log(`Found is ${found}`)
 
@@ -127,7 +76,10 @@ async getCurrentUserConversations ({ rootState, commit }) {
       const userRef = rootState.db.collection('users')
       const convoRef = rootState.db.collection('conversations')
 
-      const newConvo = await convoRef.add({
+      const uuid = uuidv4()
+
+      const newConvo = await convoRef.doc(uuid).set({
+        id: uuid,
         created: Date.now(),
         messages: [],
         mostRecentMessageId: null,
@@ -135,11 +87,11 @@ async getCurrentUserConversations ({ rootState, commit }) {
       })
 
       userRef.doc(user.id).update({
-        conversations: [...user.conversations, newConvo.id]
+        conversations: [...user.conversations, uuid]
       })
 
       userRef.doc(rootState.users.currentUser.uid).update({
-        conversations: [...currentUser.conversations, newConvo.id]
+        conversations: [...currentUser.conversations, uuid]
       })
     }
   }
@@ -149,6 +101,14 @@ export const getters = {
   currentConversation: state => {
     return state.all[state.currentId]
   },
+
+  doesntExist: state => (userId, currentUserId) => {
+    console.log(`checking for ${userId} and ${currentUserId}`)
+    return state.allIds.filter(x => 
+      state.all[x].users.includes(currentUserId) &&
+      state.all[x].users.includes(userId)
+    ).length > 0
+  }
 }
 
 export default { namespaced: true, state, mutations, actions, getters }

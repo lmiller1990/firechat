@@ -62,11 +62,11 @@
     },
 
     watch: {
-      '$store.state.conversations.currentId' () {
+      /*'$store.state.conversations.currentId' () {
         this.$store.state.db.collection('conversations').doc(this.currentConversationId)
           .onSnapshot(snapshot => {
             let source = snapshot.metadata.hasPendingWrites ? 'Local' : 'Server'
-            console.log('source', source)
+            console.log('[ConversationContainer]: source', source)
             // TODO: 'Such and such is typing a message' console.log(`Source ${source}`)
 
             const messages = snapshot.data().messages
@@ -78,7 +78,7 @@
               })
             }
           })
-      }
+      }*/
     },
 
     computed: {
