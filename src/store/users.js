@@ -23,13 +23,6 @@ export const mutations = {
 }
 
 const actions = {
-  async get ({ commit, rootState }) {
-    let userRef = rootState.db.collection('users')
-    let users = await userRef.get()
-
-    users.forEach(user => commit(types.SET_USER, { user }))
-  },
-
   async getMostRecent ({ state, commit, rootState }) {
     const userRef = rootState.db.collection('users')
 

@@ -1,8 +1,13 @@
 <template>
   <div class="main-container">
     <div class="main-section friends" v-if="$store.state.users.currentUser">
-      <button @click="showFriendsContainer = true">Show Friends</button>
-      <button @click="showFriendsContainer = false">Show Conversations</button>
+
+      <button @click="showFriendsContainer = true">
+        Show Friends
+      </button>
+      <button @click="showFriendsContainer = false">
+        Show Conversations
+      </button>
 
       <FriendsContainer v-if="showFriendsContainer"/>
       <ConversationsWithFriendsContainer v-else />
@@ -34,21 +39,20 @@
     },
 
     computed: {
-      currentUserId () {
-        this.$store.state.users.currentUser.uid
-      },
       currentConversation () {
         return this.$store.getters['conversations/currentConversation']
       }
     },
 
     created () {
+      // users - only load one.
       this.$store.dispatch('users/getMostRecent')
 
       this.$store.state.db.collection('users').doc(this.$store.state.users.currentUser.uid)
         .onSnapshot(snapshot => {
           let conversations = snapshot.data().conversations
 
+          // add new conversations
           for (let c in conversations) {
             if (this.$store.state.conversations.allIds.includes(conversations[c]) === false)
               this.$store.dispatch('conversations/fetchById', { id: conversations[c] })

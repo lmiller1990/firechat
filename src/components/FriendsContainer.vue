@@ -20,12 +20,8 @@
       UserConversationDisplay
     },
 
-    created () {
-    },
-
     computed: {
       ...mapState({
-        allUserIds: state => state.users.allIds,
         allUsers: state => state.users.all
       }),
       ...mapGetters({
