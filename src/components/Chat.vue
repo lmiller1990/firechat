@@ -3,10 +3,15 @@
     <div class="main-section friends" v-if="$store.state.users.currentUser">
 
       <div class="buttons">
-        <button @click="showFriendsContainer = true" class="fire-menu-button">
+        <button 
+          @click="showFriendsContainer = true" 
+          class="fire-menu-button">
           Friends
         </button>
-        <button @click="showFriendsContainer = false" class="fire-menu-button">
+
+        <button 
+          @click="showFriendsContainer = false" 
+          class="fire-menu-button">
           Conversations
         </button>
       </div>
@@ -106,6 +111,7 @@
   padding-right: 2px;
   margin: 2px;
   font-size: 12px;
+  cursor: pointer;
   background-color: transparent;
   border: 1px solid rgba(255, 0, 0, 0.8);
   color: rgba(255, 0, 0, 0.8);
