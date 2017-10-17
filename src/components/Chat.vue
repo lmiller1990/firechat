@@ -2,12 +2,14 @@
   <div class="main-container">
     <div class="main-section friends" v-if="$store.state.users.currentUser">
 
-      <button @click="showFriendsContainer = true">
-        Show Friends
-      </button>
-      <button @click="showFriendsContainer = false">
-        Show Conversations
-      </button>
+      <div class="buttons">
+        <button @click="showFriendsContainer = true" class="fire-menu-button">
+          Friends
+        </button>
+        <button @click="showFriendsContainer = false" class="fire-menu-button">
+          Conversations
+        </button>
+      </div>
 
       <FriendsContainer v-if="showFriendsContainer"/>
       <ConversationsWithFriendsContainer v-else />
@@ -70,6 +72,7 @@
 </script>
 
 <style scoped>
+  @import './styles.css';
 .main-container {
   display: flex;
   flex-direction: row;
@@ -90,4 +93,22 @@
   align-self: flex-end;
   flex-grow: 2;
 }
+
+.buttons {
+  display: flex;
+}
+
+.fire-menu-button {
+  width: 50%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin: 2px;
+  font-size: 12px;
+  background-color: transparent;
+  border: 1px solid rgba(255, 0, 0, 0.8);
+  color: rgba(255, 0, 0, 0.8);
+}
+
 </style>
