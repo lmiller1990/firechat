@@ -34,7 +34,7 @@
           password: this.password,
           displayname: this.displayname
         })
-        .then(() => this.$store.dispatch('users/signin', {
+       .then(() => this.$store.dispatch('users/signin', {
           email: this.email,
           password: this.password
         }))
