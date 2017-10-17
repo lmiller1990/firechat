@@ -16,8 +16,8 @@
         </button>
       </div>
 
-      <FriendsContainer v-if="showFriendsContainer"/>
-      <ConversationsWithFriendsContainer v-else />
+      <SidebarFriendsContainer v-if="showFriendsContainer"/>
+      <SidebarConversationsContainer v-else />
     </div>
 
     <div class="main-section conversation">
@@ -32,12 +32,20 @@
 
 <script>
   import CurrentConversationContainer from './CurrentConversationContainer.vue'
-  import FriendsContainer from './FriendsContainer.vue'
   import Profile from './Profile.vue'
-  import ConversationsWithFriendsContainer from './ConversationsWithFriendsContainer.vue'
+
+  import SidebarFriendsContainer from './sidebar/SidebarFriendsContainer.vue'
+  import SidebarConversationsContainer from './sidebar/SidebarConversationsContainer.vue'
 
   export default {
     name: 'Chat',
+
+    components: {
+      SidebarConversationsContainer,
+      SidebarFriendsContainer,
+      CurrentConversationContainer,
+      Profile
+    },
 
     data () {
       return {
@@ -66,18 +74,10 @@
           }
         })
     },
-    
-    components: {
-      FriendsContainer,
-      CurrentConversationContainer,
-      ConversationsWithFriendsContainer,
-      Profile
-    },
   }
 </script>
 
 <style scoped>
-  @import './styles.css';
 .main-container {
   display: flex;
   flex-direction: row;
@@ -116,5 +116,4 @@
   border: 1px solid rgba(255, 0, 0, 0.8);
   color: rgba(255, 0, 0, 0.8);
 }
-
 </style>

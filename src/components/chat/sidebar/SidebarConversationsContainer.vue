@@ -1,18 +1,18 @@
 <template>
   <div>
-    <Conversation v-for="id in conversationIds" :id="id" :key="id" />
+    <SidebarConversationItem v-for="id in conversationIds" :id="id" :key="id" />
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
-  import Conversation from './Conversation.vue'
+  import SidebarConversationItem from './SidebarConversationItem.vue'
 
   export default {
-    name: 'ConversationsWithFriendsContainer',
+    name: 'SidebarConversationsContainer',
 
     components: {
-      Conversation
+      SidebarConversationItem
     },
 
     computed: {

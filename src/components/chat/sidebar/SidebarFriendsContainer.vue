@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="wrapper">
-      <UserConversationDisplay 
+      <SidebarUserItem 
         v-for="id in allUserIdsExceptCurrent" 
         :key="id" 
         :user="allUsers[id]" />
@@ -11,13 +11,13 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex'
-  import UserConversationDisplay from './UserConversationDisplay.vue'
+  import SidebarUserItem from './SidebarUserItem.vue'
 
   export default {
-    name: 'FriendsContainer',
+    name: 'SidebarFriendsContainer',
 
     components: {
-      UserConversationDisplay
+      SidebarUserItem
     },
 
     computed: {
