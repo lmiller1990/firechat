@@ -4,7 +4,12 @@ My article about this was published on Vue.js Developers: https://vuejsdeveloper
 
 Images:
 
+### Chat Page
+
 ![alt text](https://github.com/lmiller1990/firechat/blob/master/images/chat.png "Chat")
+
+### Login Page
+
 ![alt text](https://github.com/lmiller1990/firechat/blob/master/images/login.png "Login")
 
 
