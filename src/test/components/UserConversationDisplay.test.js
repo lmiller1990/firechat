@@ -1,5 +1,5 @@
 import { mount, shallow } from 'vue-test-utils'
-import UserConversationDisplay from '@/components/UserConversationDisplay'
+import SidebarUserItem from '@/components/chat/sidebar/SidebarUserItem'
 import moment from 'moment'
 
 describe('UserConversationDisplay', () => {
@@ -9,7 +9,7 @@ describe('UserConversationDisplay', () => {
       lastSeen: new Date()
     }
 
-    const wrapper = mount(UserConversationDisplay, { 
+    const wrapper = mount(SidebarUserItem, { 
       mocks: {
         $moment: moment
       },

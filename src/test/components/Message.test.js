@@ -1,5 +1,5 @@
 import { shallow, mount } from 'vue-test-utils'
-import Message from '@/components/Message'
+import Message from '@/components/chat/Message'
 import Vue from 'vue'
 import Vuex from 'vuex'
 

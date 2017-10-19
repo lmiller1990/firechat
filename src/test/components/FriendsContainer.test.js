@@ -1,8 +1,8 @@
 import { mount } from 'vue-test-utils'
-import FriendsContainer from '@/components/FriendsContainer'
+import SidebarFriendsContainer from '@/components/chat/sidebar/SidebarConversationItem'
 
 describe('FriendsContainer', () => {
   it('renders a list of friends', () => {
-    // const wrapper = mount(FriendsContainer)
+    // const wrapper = mount(SidebarFriendsContainer)
   })
 })

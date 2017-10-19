@@ -7,12 +7,12 @@ describe('users module getters', () => {
   it ('returns all user ids except the current user', () => {
     let state = {
       allIds: [1, 2, 3],
-      currentUser: { uid: 3 }
+      currentUser: { uid: 2 }
     }
 
     const actual = getters.allUserIdsExceptCurrent(state)
 
-    expect(actual).toEqual([1, 2])
+    expect(actual).toEqual([1, 3])
   })
 })
 
