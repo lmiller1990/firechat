@@ -39,8 +39,6 @@ describe('Signin', () => {
 
     wrapper.find('button').trigger('click')
 
-    console.log(wrapper.vm.$router)
-    console.log(wrapper.vm.$route)
     expect(actions.signin.mock.calls.length).toBe(1)
   })
 })
