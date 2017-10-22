@@ -8,7 +8,7 @@
 		"dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
 		"build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
 		"unit": "jest --watch",
-    "coverage" "jest --coverage",
+    "coverage": "jest --coverage",
 		"precommit": "yarn jest",
 		"prepush": "yarn jest"
 	},
